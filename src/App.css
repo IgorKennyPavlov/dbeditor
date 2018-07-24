@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+/* Общие */
+.hidden {
+    display: none !important;
+}
+.disabled {
+    opacity: .5;
+}
+input, textarea {
+    padding: 3px 5px;
+    border-radius: 5px;
+    border: 1px solid #555;
+}
+#root {
+    width: 96vw;
+    min-width: 870px;
+}
+
+/* Кнопка */
+.btn {
+    display: grid;
+    padding: 5px;
+    background-color: #222;
+    grid-template-columns: 1fr 5fr;
+    column-gap: 5px;
+    justify-items: space-around;
+    align-items: center;
+    border: 1px solid #555;
+    border-radius: 10px;
+    color: #ccc;
+    box-shadow: 5px 4px 10px #555;
+    cursor: pointer;
+    transition: .2s;
+}
+.btn * {
+    transition: .3s;
+}
+.btn > .btn_title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn > .btn_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5vh;
+    height: 5vh;
+    font-size: 2em;
+    border: 1px solid #555;
+    border-radius: 50%;
+    background-color: #555;
+    color: #ccc;
+}
+.btn:hover {
+    background-color: #444;
+}
+.btn:hover * {
+    color: #fff;
+}
+.btn:hover .btn_icon {
+    background-color: #777;
+}
+.btn:active {
+    box-shadow: 3px 3px 8px #555;
+}
+/* Конец кнопки */
+
+/* Блок заголовков */
+.col_titles_block {
+    display: grid;
+    width: 100%;
+    grid-auto-flow: column;
+}
+.col_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .5em;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #555;
+}
+/* Конец блока заголовков */
+
+/* Блок редактора */
+.editor_block {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    min-height: 5vh;
+    padding: 10px;
+    border: 3px solid #555;
+    background-color: #ccc;
+    border-radius: 5px;
+    font-size: 1.2em;
+    box-shadow: 8px 5px 20px #555;
+}
+.editor_block > .editor_block-col {
+    margin-right: 10px;
+}
+.category_content {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.category_content.no_subcats {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+}
+.subcat {
+    display: grid;
+    grid-template-areas:
+    "subcat_header  subcat_header"
+    "col_left col_right";
+    grid-column-gap: 10px;
+    min-height: 4vh;
+    padding: 10px;
+    border: 2px solid #555;
+    background-color: #ccc;
+    border-radius: 5px;
+    box-shadow: 5px 5px 20px #555;
+    margin-bottom: 10px;
+    position: relative;
+}
+.subcat_header {
+    grid-area: subcat_header;
+    font-size: 1.4em;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+.card {
+    display: grid;
+    min-height: 4vh;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #555;
+    background-color: #ccc;
+    border-radius: 5px;
+    box-shadow: 3px 3px 20px #555;
+    position: relative;
+}
+.card_header {
+    border-bottom: 1px solid black;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: bold;
+}
+.editor_block-col {
+    display: grid;
+    align-items: start;
+}
+.col_left {
+    grid-area: col_left;
+}
+.col_right {
+    grid-area: col_right;
+}
+.delete_item_btn {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-size: 1.5em;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .2s;
+}
+.delete_item_btn:hover {
+    color: #c00;
+    text-shadow: 1px 1px 3px #555;
+}
+.delete_item_btn:active {
+    text-shadow: none;
+    font-weight: normal;
+}
+.add_item_block-inner_wrap {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.add_item_block-wrap {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.add_item_block-inner_wrap > input {
+    margin-top: 5px;
+}
+.add_item {
+    width: 70%;
+}
+/* Конец блока редактора */
+
+/* Блок ввода данных */
+.input_panel-wrap > label,
+.infoBlock > label {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 10px;
+    justify-items: start;
+    align-items: center;
+    margin: 5px 0; 
+}
+.input_panel-wrap label input {
+    width: 95%;
+    max-width: 300px;
+}
+.card .input_panel-wrap label input {
+    min-width: 50%;
+    max-width: 100px;
+}
+.card .input_panel-wrap label input[type="radio"] {
+    width: 15px;
+}
+.input_panel-wrap label textarea {
+    resize: vertical;
+    width: 98%;
+}
+.input_panel-subsection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input_panel-wrap > .input_panel-subsection {
+    margin-top: 15px;
+} 
+.input_panel-subsection label {
+    margin: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-items: center;
+}
+.input_panel-subsection label > * {
+    margin: 5px;
+}
+.input_panel-subsection.col {
+    flex-direction: column;
+}
+.input_panel-subsection span {
+    display: block;
+    text-align: center;
+}
+.assoc_array_input .btn  {
+    width: 100%;
+}
+.assoc_array_input .btn .btn_icon {
+    width: 3vh;
+    height: 3vh;
+}
+span.key {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.key_value_pair {
+    display: flex;
+    margin: 10px 0;
+}
+.key_value_pair * {
+    margin: 0 5px;
+}
+.infoBlock p {
+    text-align: center;
+    font-weight: bold;
+}
+/* Конец блока ввода данных */
+
+/* Кнопка "Создать БД" */
+.create_db {
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+/* Окно с ответом сервера */
+#server_reply {
+    font-size: 16px;
+    padding: 20px;
+}
