@@ -189,7 +189,7 @@ if ($decoded_db) {
         } else {
             foreach($db["prods"] as $prod_key => $prod) {
                 $new_card_text = create_prod_card(create_path_array(null, $prod_key));
-                $new_card_name = "card-".$prod_key;
+                $new_card_name = $prod_key;
                 $new_card_file = fopen($DB_subfolder."/".$new_category_name."/".$new_card_name.".html", "w");
                 fwrite($new_card_file, $new_card_text);
                 fclose($new_card_file);

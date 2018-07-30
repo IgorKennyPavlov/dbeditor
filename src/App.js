@@ -107,73 +107,84 @@ export default class App extends Component {
 
     addItem = (item, e) => {
         let newDB = this.state.DB;
-        if (item === "assoc_array_item") {
-            let targetKey = this.getParentByClass(e.currentTarget, "key_container").querySelector("span.key").innerText;
-            let targetCard = this.getParentByClass(e.currentTarget, "card").id;
-            let folder = this.getParentByDataAttr(e.currentTarget, "folder");
-            if (folder) {
-                folder = folder.dataset.folder;
-            }
-            let targetArray;
-            if (newDB.subcats) {
-                let targetSubcat = this.getParentByClass(e.currentTarget, "subcat").id;
-                if (folder) {
-                    targetArray = newDB.subcats[targetSubcat].prods[targetCard][folder][targetKey];
+        // if (item === "assoc_array_item") {
+        //     let targetKey = this.getParentByClass(e.currentTarget, "key_container").querySelector("span.key").innerText;
+        //     let targetCard = this.getParentByClass(e.currentTarget, "card").id;
+        //     let folder = this.getParentByDataAttr(e.currentTarget, "folder");
+        //     if (folder) {
+        //         folder = folder.dataset.folder;
+        //     }
+        //     let targetArray;
+        //     if (newDB.subcats) {
+        //         let targetSubcat = this.getParentByClass(e.currentTarget, "subcat").id;
+        //         if (folder) {
+        //             targetArray = newDB.subcats[targetSubcat].prods[targetCard][folder][targetKey];
+        //         } else {
+        //             targetArray = newDB.subcats[targetSubcat].prods[targetCard][targetKey];
+        //         }
+        //     } else {
+        //         if (folder) {
+        //             targetArray = newDB.prods[targetCard][folder][targetKey];
+        //         } else {
+        //             targetArray = newDB.prods[targetCard][targetKey];
+        //         }
+        //     }
+        //     targetArray["элемент_" + Object.keys(targetArray).length] = "значение";
+        // } else {
+        let newItemTitle = this.getParentByClass(e.currentTarget, "add_item_block-wrap").querySelector("input.new_item_title").value.toLowerCase().replace(/\s+/g, "_");
+        if (newItemTitle) {
+            if (item === "subcat") {
+                if (newDB.subcats) {
+                    if (newDB.subcats.hasOwnProperty(newItemTitle)) {
+                        alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
+                        return;
+                    }
+                    newDB.subcats[newItemTitle] = new SubcatTemplate();
                 } else {
-                    targetArray = newDB.subcats[targetSubcat].prods[targetCard][targetKey];
+                    newDB.subcats = {};
+                    newDB.subcats[newItemTitle] = new SubcatTemplate();
+                    newDB.subcats[newItemTitle].prods = newDB.prods;
+                    delete newDB.prods;
                 }
-            } else {
-                if (folder) {
-                    targetArray = newDB.prods[targetCard][folder][targetKey];
+            } else if (item === "card") {
+                if (newDB.subcats) {
+                    let subcatTitle = this.getParentByClass(e.currentTarget, "subcat").id;
+                    if (newDB.subcats[subcatTitle].prods.hasOwnProperty(newItemTitle)) {
+                        alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
+                        return;
+                    }
+                    newDB.subcats[subcatTitle].prods[newItemTitle] = new CardTemplate();
                 } else {
-                    targetArray = newDB.prods[targetCard][targetKey];
+                    if (newDB.prods.hasOwnProperty(newItemTitle)) {
+                        alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
+                        return;
+                    }
+                    newDB.prods[newItemTitle] = new CardTemplate();
                 }
             }
-            targetArray["элемент_" + Object.keys(targetArray).length] = "значение";
         } else {
-            let newItemTitle = this.getParentByClass(e.currentTarget, "add_item_block-wrap").querySelector("input.new_item_title").value.toLowerCase().replace(/\s+/g, "_");
-            if (newItemTitle) {
-                if (item === "subcat") {
-                    if (newDB.subcats) {
-                        if (newDB.subcats.hasOwnProperty(newItemTitle)) {
-                            alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
-                            return;
-                        }
-                        newDB.subcats[newItemTitle] = new SubcatTemplate();
-                    } else {
-                        newDB.subcats = {};
-                        newDB.subcats[newItemTitle] = new SubcatTemplate();
-                        newDB.subcats[newItemTitle].prods = newDB.prods;
-                        delete newDB.prods;
-                    }
-                } else if (item === "card") {
-                    if (newDB.subcats) {
-                        let subcatTitle = this.getParentByClass(e.currentTarget, "subcat").id;
-                        if (newDB.subcats[subcatTitle].prods.hasOwnProperty(newItemTitle)) {
-                            alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
-                            return;
-                        }
-                        newDB.subcats[subcatTitle].prods[newItemTitle] = new CardTemplate();
-                    } else {
-                        if (newDB.prods.hasOwnProperty(newItemTitle)) {
-                            alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
-                            return;
-                        }
-                        newDB.prods[newItemTitle] = new CardTemplate();
-                    }
-                }
-            } else {
-                alert("Введите название для нового элемента.");
-                return;
-            }
+            alert("Введите название для нового элемента.");
+            return;
         }
+        // }
         this.setState({
             DB: newDB
         });
     }
 
+    minimizeItem = (e) => {
+        let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
+        let minimized = targetEl.dataset.minimized;
+        if (minimized) {
+            targetEl.querySelector(".item_content").style.display = "flex";
+            delete targetEl.dataset.minimized;
+        } else {
+            targetEl.querySelector(".item_content").style.display = "none";
+            targetEl.dataset.minimized = true;
+        }
+    }
     deleteItem = (e) => {
-        let targetEl = e.currentTarget.parentElement;
+        let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let newDB = this.state.DB;
         if (targetEl.classList.contains("subcat")) {
             delete newDB.subcats[targetEl.id];
@@ -223,15 +234,20 @@ export default class App extends Component {
         let subcatIndex = 0;
         for (let subcat in subcatFolder) {
             subcatBlocks.push(
-                <div key={subcatIndex} className="subcat" id={subcat}>
-                    <span className="delete_item_btn" onClick={(e) => this.deleteItem(e)}>&times;</span>
-                    <span className="subcat_header">{subcat}</span>
-                    <div className="editor_block-col col_left">
-                        <InputBlock itemType="subcat" DB={this.state.DB} setState={this.setState} addItem={this.addItem} />
+                <div key={subcatIndex} className="subcat" id={subcat} data-item-role="db_item">
+                    <div className="ui_control_block">
+                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
-                    <div className="editor_block-col col_right">
-                        {this.displayCards(subcatFolder[subcat].prods, subcat)}
-                        <AddItemBlock itemType="card" addItem={this.addItem} />
+                    <span className="subcat_header">{subcat}</span>
+                    <div className="subcat_wrap item_content">
+                        <div className="editor_block-col col_left">
+                            <InputBlock itemType="subcat" DB={this.state.DB} setState={this.setState} addItem={this.addItem} />
+                        </div>
+                        <div className="editor_block-col col_right">
+                            {this.displayCards(subcatFolder[subcat].prods, subcat)}
+                            <AddItemBlock itemType="card" addItem={this.addItem} />
+                        </div>
                     </div>
                 </div>
             );
@@ -245,13 +261,18 @@ export default class App extends Component {
         let productIndex = 0;
         for (let product in prodsFolder) {
             prodBlocks.push(
-                <div key={productIndex} className="card" id={product}>
-                    <span className="delete_item_btn" onClick={(e) => this.deleteItem(e)}>&times;</span>
+                <div key={productIndex} className="card" id={product} data-item-role="db_item">
+                    <div className="ui_control_block" data-item-role="something">
+                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
+                    </div>
                     <span className="card_header">{product}</span>
-                    {subcat ?
-                        <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} itemSubcat={subcat} addItem={this.addItem} /> :
-                        <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} addItem={this.addItem} />
-                    }
+                    <div className="item_content">
+                        {subcat ?
+                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} itemSubcat={subcat} addItem={this.addItem} /> :
+                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} addItem={this.addItem} />
+                        }
+                    </div>
                 </div>
             );
             productIndex++;
@@ -269,11 +290,23 @@ export default class App extends Component {
         }
         return currentParent;
     }
-    getParentByDataAttr = (el, dataAttrName, dataAttrValue) => {
+    getParentByDataAttr = (el, dataAttrName, dataAttrValue = null) => {
         let currentParent = el.parentElement;
-        while (!currentParent.dataset[dataAttrName]) {
+        let found = false;
+        while (!found) {
             if (currentParent === document.body) {
                 return false;
+            }
+            if(currentParent.dataset[dataAttrName]) {
+                if(dataAttrValue) {
+                    if(dataAttrValue === currentParent.dataset[dataAttrName]) {
+                        found = true;
+                        continue;
+                    }
+                } else {
+                    found = true;
+                    continue;
+                }
             }
             currentParent = currentParent.parentElement;
         }
@@ -310,36 +343,37 @@ export default class App extends Component {
                     newDB.prods[cardID][key] = val;
                 }
             }
-        } else if (inputClasses.contains("assoc_array_input")) {
-            let cardID = this.getParentByClass(e.currentTarget, "card").id;
-            let subcatID;
-            let targetArray;
-            let prevKey = e.currentTarget.parentElement.dataset.key;
-            if(this.getParentByClass(e.currentTarget, "attributes")) {
-                val = val.toLowerCase().replace(/\s+/g, "_");
-            }
-            let prevValue = e.currentTarget.parentElement.dataset.value;
-            if (newDB.subcats) {
-                subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
-                if (folder) {
-                    targetArray = newDB.subcats[subcatID].prods[cardID][folder][key];
-                } else {
-                    targetArray = newDB.subcats[subcatID].prods[cardID][key];
-                }
-            } else {
-                if (folder) {
-                    targetArray = newDB.prods[cardID][folder][key];
-                } else {
-                    targetArray = newDB.prods[cardID][key];
-                }
-            }
-            if(inputClasses.contains("key")) {
-                targetArray[val] = prevValue;
-                delete targetArray[prevKey];
-            } else if (inputClasses.contains("value")) {
-                targetArray[prevKey] = val;
-            }
         }
+        // else if (inputClasses.contains("assoc_array_input")) {
+        //     let cardID = this.getParentByClass(e.currentTarget, "card").id;
+        //     let subcatID;
+        //     let targetArray;
+        //     let prevKey = e.currentTarget.parentElement.dataset.key;
+        //     if(this.getParentByClass(e.currentTarget, "attributes")) {
+        //         val = val.toLowerCase().replace(/\s+/g, "_");
+        //     }
+        //     let prevValue = e.currentTarget.parentElement.dataset.value;
+        //     if (newDB.subcats) {
+        //         subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
+        //         if (folder) {
+        //             targetArray = newDB.subcats[subcatID].prods[cardID][folder][key];
+        //         } else {
+        //             targetArray = newDB.subcats[subcatID].prods[cardID][key];
+        //         }
+        //     } else {
+        //         if (folder) {
+        //             targetArray = newDB.prods[cardID][folder][key];
+        //         } else {
+        //             targetArray = newDB.prods[cardID][key];
+        //         }
+        //     }
+        //     if(inputClasses.contains("key")) {
+        //         targetArray[val] = prevValue;
+        //         delete targetArray[prevKey];
+        //     } else if (inputClasses.contains("value")) {
+        //         targetArray[prevKey] = val;
+        //     }
+        // }
         this.setState({
             DB: newDB
         });
@@ -362,7 +396,7 @@ export default class App extends Component {
 
     ajaxCreateDB = () => {
         let file_name = prompt("Введите название файла БД", "file_name").toLowerCase().replace(/\s+/g, "_");
-        if(!file_name) {
+        if (!file_name) {
             file_name = "default_title";
         }
         let DB = JSON.stringify(this.state.DB);
@@ -374,7 +408,7 @@ export default class App extends Component {
             let current_array = old_str.match(/("(images|advantages)":)(.[^"]*")(,?)/);
             let new_str = current_array[3].replace(/,?\\n/g, ",");
             new_str = new_str.replace(/ */g, "");
-            new_str = current_array[1]+"["+new_str+"]"+current_array[4];
+            new_str = current_array[1] + "[" + new_str + "]" + current_array[4];
             new_str = new_str.replace(/,"/g, "\"");
             new_str = new_str.replace(/(?<!]),/g, "\",\"");
             new_str = new_str.replace(/,?"\s?"/g, "");

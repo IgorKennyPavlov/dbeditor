@@ -111,10 +111,8 @@ input, textarea {
     align-items: start;
 }
 .subcat {
-    display: grid;
-    grid-template-areas:
-    "subcat_header  subcat_header"
-    "col_left col_right";
+    display: flex;
+    flex-direction: column;
     grid-column-gap: 10px;
     min-height: 4vh;
     padding: 10px;
@@ -132,6 +130,10 @@ input, textarea {
     font-weight: bold;
     margin-bottom: 10px;
     border-bottom: 1px solid black;
+}
+.subcat_wrap {
+    display: flex;
+    justify-content: space-between;
 }
 .card {
     display: grid;
@@ -155,27 +157,42 @@ input, textarea {
     align-items: start;
 }
 .col_left {
-    grid-area: col_left;
+    width: 30%;
 }
 .col_right {
-    grid-area: col_right;
+    width: 60%;
 }
-.delete_item_btn {
+.ui_control_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right: 5px;
     top: 0;
+    height: 1.5em;
     font-size: 1.5em;
-    cursor: pointer;
     font-weight: bold;
+}
+.ui_btn {
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    cursor: pointer;
     transition: .2s;
 }
-.delete_item_btn:hover {
+.ui_btn.minimize_item {
+    align-self: flex-end;
+}
+.ui_btn:hover {
     color: #c00;
     text-shadow: 1px 1px 3px #555;
 }
-.delete_item_btn:active {
+.ui_btn:active {
     text-shadow: none;
     font-weight: normal;
+}
+.item_content {
+    display: flex;
 }
 .add_item_block-inner_wrap {
     display: flex;
