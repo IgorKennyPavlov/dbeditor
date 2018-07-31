@@ -33,7 +33,6 @@ if ($decoded_db) {
             $indentation = str_repeat($indent_char, $indent_size * $indent_lvl);
             $str = $indentation . $str . "\r\n";
         }
-        echo $str."<br>";
         $indented_db .= $str;
     }
     // Сохранить БД в файл
@@ -58,7 +57,7 @@ if ($decoded_db) {
 
     // Сборка страниц по шаблону, подключение БД
     function create_path_array($subcat = null, $prod = null) {
-        $path_components = '"category" => "'.$GLOBALS['caregory'].'"';
+        $path_components = '"category" => "'.$GLOBALS['category'].'"';
         if($subcat && $prod) {
             $path_components .= ',"subcat" => "'.$subcat.'","card" => "'.$prod.'"';
         } else {
