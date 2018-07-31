@@ -1,13 +1,12 @@
 <?php
 $decoded_db = file_get_contents('php://input');
 if ($decoded_db) {
-    preg_match("/file_name=\((.[^>]*)\)/", $decoded_db, $title_array);
+    preg_match("/file_name=\(([^)]*)\)/", $decoded_db, $title_array);
     $decoded_db = str_replace($title_array[0], "", $decoded_db);
     // Перевести в PHP-массив
     $decoded_db = str_replace(":", " => ", $decoded_db);
     $decoded_db = preg_replace("/^\{/", "", $decoded_db);
     $decoded_db = preg_replace("/\}$/", "", $decoded_db);
-    var_dump($decoded_db);
     $decoded_db = preg_replace("/((?<=\"),|\{|\[|\},|\],)/", "$1\r\n", $decoded_db);
     $decoded_db = preg_replace("/\"(\}|\])/", "\"\r\n$1", $decoded_db);
     $decoded_db = preg_replace("/(\}|\])(?!,)/", "$1\r\n", $decoded_db);
@@ -34,6 +33,7 @@ if ($decoded_db) {
             $indentation = str_repeat($indent_char, $indent_size * $indent_lvl);
             $str = $indentation . $str . "\r\n";
         }
+        echo $str."<br>";
         $indented_db .= $str;
     }
     // Сохранить БД в файл
@@ -186,7 +186,7 @@ if ($decoded_db) {
                     foreach($subcat["prods"] as $prod_key => $prod) {
                         $new_card_text = create_prod_card(create_path_array($subcat_key, $prod_key));
                         preg_match('/[^\/]+$/', $prod['link'], $new_card_file_name);
-                        $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_subcat_folder_name."/".$new_card_file_name, "w");
+                        $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_subcat_folder_name."/".$new_card_file_name[0], "w");
                         fwrite($new_card_file, $new_card_text);
                         fclose($new_card_file);
                     }
@@ -196,7 +196,7 @@ if ($decoded_db) {
             foreach($db["prods"] as $prod_key => $prod) {
                 $new_card_text = create_prod_card(create_path_array(null, $prod_key));
                 preg_match('/[^\/]+$/', $prod['link'], $new_card_file_name);
-                $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_card_file_name, "w");
+                $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_card_file_name[0], "w");
                 fwrite($new_card_file, $new_card_text);
                 fclose($new_card_file);
             }
