@@ -58,7 +58,7 @@ if ($decoded_db) {
 
     // Сборка страниц по шаблону, подключение БД
     function create_path_array($subcat = null, $prod = null) {
-        $path_components = '"category" => "'.$GLOBALS['new_category_file_name'][0].'"';
+        $path_components = '"category" => "'.$GLOBALS['caregory'].'"';
         if($subcat && $prod) {
             $path_components .= ',"subcat" => "'.$subcat.'","card" => "'.$prod.'"';
         } else {
