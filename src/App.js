@@ -9,11 +9,12 @@ export default class App extends Component {
         super(props);
         this.state = {
             DB: {
-                // "title": "хреновины для торговли",
-                // "cardh1title": "хреновина для торговли",
-                // "link": "category-thingies_for_trading/items_for_trading.html",
-                // "subcats": {
-                //     "simple_thingies": {
+                // "title" : "хреновины для торговли",
+                // "cardh1title" : "хреновина для торговли",
+                // "link" : "category-thingies_for_trading/items_for_trading.html",
+                // "priceList" : "some/link/to/file.php",
+                // "subcats" : {
+                //     "simple_thingies" : {
                 //         "title" : "простые хреновины",
                 //         "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
                 //         "prods" : {
@@ -29,7 +30,7 @@ export default class App extends Component {
                 //                     "харизма" : "100",
                 //                     "сопротивление_огню" : "100"
                 //                 },
-                //                 "images" : "images/image_1.jpg, images/image_2.jpg, images/image_3.jpg, images/image_4.jpg",
+                //                 "images" : "images/image_1.jpg\nimages/image_2.jpg\nimages/image_3.jpg\nimages/image_4.jpg",
                 //                 "primaryProps" : {
                 //                     "свойство 1" : "значение 1",
                 //                     "свойство 2" : "значение 2",
@@ -48,13 +49,13 @@ export default class App extends Component {
                 //                         "свойство 44" : "значение 44"
                 //                     },
                 //                     "desc" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus iste, ex animi mollitia quo, repellat voluptatum veritatis assumenda molestiae ducimus quam distinctio sunt eos itaque. Ducimus sed facilis quas enim.",
+                //                     "advantages" : "some\n very\nimportant\nvalues",
                 //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
                 //                 }
                 //             }
                 //         }
                 //     },
-                //     "advanced_thingies": {
+                //     "advanced_thingies" : {
                 //         "title" : "продвинутые хреновины",
                 //         "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
                 //         "prods" : {
@@ -62,7 +63,7 @@ export default class App extends Component {
                 //                 "title" : "Хреноватор 5000М",
                 //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_5000m.html",
                 //                 "article" : "777777",
-                //                 "priceType" : "range",
+                //                 "priceType" : "fixed",
                 //                 "prodClass" : "hit",
                 //                 "attributes" : {
                 //                     "мощность" : "1000",
@@ -70,7 +71,7 @@ export default class App extends Component {
                 //                     "харизма" : "1000",
                 //                     "сопротивление_огню" : "1000"
                 //                 },
-                //                 "images" : "images/image_11.jpg, images/image_12.jpg, images/image_13.jpg, images/image_14.jpg",
+                //                 "images" : "images/image_11.jpg\nimages/image_12.jpg\nimages/image_13.jpg\nimages/image_14.jpg",
                 //                 "primaryProps" : {
                 //                     "свойство 1" : "значение 1",
                 //                     "свойство 2" : "значение 2",
@@ -88,9 +89,9 @@ export default class App extends Component {
                 //                         "свойство 33" : "значение 33",
                 //                         "свойство 44" : "значение 44"
                 //                     },
-                //                     "desc" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus iste, ex animi mollitia quo, repellat voluptatum veritatis assumenda molestiae ducimus quam distinctio sunt eos itaque. Ducimus sed facilis quas enim.",
-                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
+                //                     "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur adipisicing elit. Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
+                //                     "advantages" : "Some\nvery important\nvalues",
+                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
                 //                 }
                 //             }
                 //         }
@@ -242,7 +243,7 @@ export default class App extends Component {
                     <span className="subcat_header">{subcat}</span>
                     <div className="subcat_wrap item_content">
                         <div className="editor_block-col col_left">
-                            <InputBlock itemType="subcat" DB={this.state.DB} setState={this.setState} addItem={this.addItem} />
+                            <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} setState={this.setState} addItem={this.addItem} />
                         </div>
                         <div className="editor_block-col col_right">
                             {this.displayCards(subcatFolder[subcat].prods, subcat)}
@@ -269,8 +270,8 @@ export default class App extends Component {
                     <span className="card_header">{product}</span>
                     <div className="item_content">
                         {subcat ?
-                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} itemSubcat={subcat} addItem={this.addItem} /> :
-                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} item={product} addItem={this.addItem} />
+                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} product={product} subcat={subcat} addItem={this.addItem} /> :
+                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} product={product} addItem={this.addItem} />
                         }
                     </div>
                 </div>
@@ -322,6 +323,8 @@ export default class App extends Component {
         if (folder) {
             folder = folder.dataset.folder;
         }
+        e.currentTarget.style.minHeight = "";
+        e.currentTarget.style.minHeight = e.currentTarget.scrollHeight + "px";
         if (inputClasses.contains("category_input")) {
             newDB[key] = val;
         } else if (inputClasses.contains("subcat_input")) {
@@ -388,6 +391,10 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        let inputs = document.querySelectorAll(".input_panel input, .input_panel textarea");
+        inputs.forEach((input, index, listObj) => {
+            input.style.minHeight = input.scrollHeight + "px";
+        });
         this.addInputHandlers();
     }
     componentDidUpdate() {
@@ -399,24 +406,23 @@ export default class App extends Component {
         if (!file_name) {
             file_name = "default_title";
         }
-        let DB = JSON.stringify(this.state.DB);
+        let DB = JSON.stringify(this.state.DB).replace(/(\(|\))/g, "\\$1");
         DB = "file_name=(" + file_name + ")" + DB;
         let xhr = new XMLHttpRequest();
         // Оформить индексные массивы
         let indexed_arrays = DB.match(/("(images|advantages)":)(.[^"]*")(,?)/g);
         indexed_arrays.forEach((old_str, key) => {
             let current_array = old_str.match(/("(images|advantages)":)(.[^"]*")(,?)/);
-            let new_str = current_array[3].replace(/,?\\n/g, ",");
-            new_str = new_str.replace(/ */g, "");
-            new_str = current_array[1] + "[" + new_str + "]" + current_array[4];
-            new_str = new_str.replace(/,"/g, "\"");
-            new_str = new_str.replace(/(?<!]),/g, "\",\"");
-            new_str = new_str.replace(/,?"\s?"/g, "");
+            let new_str = current_array[3].replace(/,/g, "\\,");
+            new_str = current_array[3].replace(/\\n/g, "\",\"");
+            new_str = new_str.replace(/\s\s/g, " ");
+            new_str = new_str.replace(/",\s*"/g, "\",\"");
             new_str = new_str.replace(/,?"\s*"/g, "");
+            new_str = current_array[1] + "[" + new_str + "]" + current_array[4];
             DB = DB.replace(old_str, new_str);
         });
-        // xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
-        xhr.open('POST', 'http://dbeditor/build/db_editor.php', true);
+        xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
+        // xhr.open('POST', 'http://dbeditor/build/db_editor.php', true);
         xhr.onload = () => {
             console.log("Готово");
         };
@@ -443,7 +449,7 @@ export default class App extends Component {
                 </div>
                 <div className="editor_block">
                     <div className="editor_block-col">
-                        <InputBlock itemType="category" />
+                        <InputBlock itemType="category" DB={this.state.DB} />
                     </div>
                     <div className="category_content_wrap">
                         {this.displayCategoryContent()}

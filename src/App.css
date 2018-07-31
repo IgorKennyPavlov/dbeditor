@@ -124,7 +124,6 @@ input, textarea {
     position: relative;
 }
 .subcat_header {
-    grid-area: subcat_header;
     font-size: 1.4em;
     text-align: center;
     font-weight: bold;
@@ -157,7 +156,7 @@ input, textarea {
     align-items: start;
 }
 .col_left {
-    width: 30%;
+    width: 35%;
 }
 .col_right {
     width: 60%;
@@ -242,6 +241,9 @@ input, textarea {
 .input_panel-wrap label textarea {
     resize: vertical;
     width: 98%;
+}
+.input_panel {
+    width: 100%;
 }
 .input_panel-subsection {
     display: flex;

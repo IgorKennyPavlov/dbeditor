@@ -7,7 +7,8 @@ if ($decoded_db) {
     $decoded_db = str_replace(":", " => ", $decoded_db);
     $decoded_db = preg_replace("/^\{/", "", $decoded_db);
     $decoded_db = preg_replace("/\}$/", "", $decoded_db);
-    $decoded_db = preg_replace("/(,|\{|\[|\},|\],)/", "$1\r\n", $decoded_db);
+    var_dump($decoded_db);
+    $decoded_db = preg_replace("/((?<=\"),|\{|\[|\},|\],)/", "$1\r\n", $decoded_db);
     $decoded_db = preg_replace("/\"(\}|\])/", "\"\r\n$1", $decoded_db);
     $decoded_db = preg_replace("/(\}|\])(?!,)/", "$1\r\n", $decoded_db);
     $decoded_db = preg_replace("/\{|\[/", "array(", $decoded_db);
@@ -20,11 +21,12 @@ if ($decoded_db) {
     $indented_db = "";
     for ($i = 0; $i < count($split_db) - 1; $i++) {
         $str = $split_db[$i];
+        preg_match("/(?<!\\\\)\)/", $str, $end_of_array);
         if (strpos($str, 'array(') !== false) {
             $indentation = str_repeat($indent_char, $indent_size * $indent_lvl);
             $str = $indentation . $str . "\r\n";
             $indent_lvl++;
-        } else if (strpos($str, ')') !== false) {
+        } else if ($end_of_array[0]) {
             $indent_lvl--;
             $indentation = str_repeat($indent_char, $indent_size * $indent_lvl);
             $str = $indentation . $str . "\r\n";
@@ -56,7 +58,7 @@ if ($decoded_db) {
 
     // Сборка страниц по шаблону, подключение БД
     function create_path_array($subcat = null, $prod = null) {
-        $path_components = '"category" => "'.$GLOBALS['category'].'"';
+        $path_components = '"category" => "'.$GLOBALS['new_category_file_name'][0].'"';
         if($subcat && $prod) {
             $path_components .= ',"subcat" => "'.$subcat.'","card" => "'.$prod.'"';
         } else {
@@ -162,25 +164,29 @@ if ($decoded_db) {
 
     include_once $DB_subfolder . "/" . $DB_name;
     if(isset($db)) {
+        preg_match('/[^\/]+$/', $db['link'], $new_category_file_name);
         $new_category_text = create_category_page(create_path_array());
-        $new_category_name = "category-".$category;
-        mkdir($DB_subfolder."/".$new_category_name);
-        $new_category_file = fopen($DB_subfolder."/".$new_category_name."/".$category.".html", "w");
+        $new_category_folder_name = "category-".$category;
+        $path = $DB_subfolder."/".$new_category_folder_name;
+        mkdir($path);
+        $new_category_file = fopen($path."/".$new_category_file_name[0], "w");
         fwrite($new_category_file, $new_category_text);
         fclose($new_category_file);
         if(isset($db["subcats"])) {
             foreach($db["subcats"] as $subcat_key => $subcat) {
                 $new_subcat_text = create_category_page(create_path_array($subcat_key));
-                $new_subcat_name = "subcat-".$subcat_key;
-                mkdir($DB_subfolder."/".$new_category_name."/".$new_subcat_name);
-                $new_subcat_file = fopen($DB_subfolder."/".$new_category_name."/".$new_subcat_name."/".$subcat_key.".html", "w");
+                $new_subcat_folder_name = "subcat-".$subcat_key;
+                $path = $DB_subfolder."/".$new_category_folder_name."/".$new_subcat_folder_name;
+                mkdir($path);
+                preg_match('/[^\/]+$/', $subcat['link'], $new_subcat_file_name);
+                $new_subcat_file = fopen($path."/".$new_subcat_file_name[0], "w");
                 fwrite($new_subcat_file, $new_subcat_text);
                 fclose($new_subcat_file);
                 if(isset($subcat["prods"])) {
                     foreach($subcat["prods"] as $prod_key => $prod) {
                         $new_card_text = create_prod_card(create_path_array($subcat_key, $prod_key));
-                        $new_card_name = $prod_key;
-                        $new_card_file = fopen($DB_subfolder."/".$new_category_name."/".$new_subcat_name."/".$new_card_name.".html", "w");
+                        preg_match('/[^\/]+$/', $prod['link'], $new_card_file_name);
+                        $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_subcat_folder_name."/".$new_card_file_name, "w");
                         fwrite($new_card_file, $new_card_text);
                         fclose($new_card_file);
                     }
@@ -189,13 +195,14 @@ if ($decoded_db) {
         } else {
             foreach($db["prods"] as $prod_key => $prod) {
                 $new_card_text = create_prod_card(create_path_array(null, $prod_key));
-                $new_card_name = $prod_key;
-                $new_card_file = fopen($DB_subfolder."/".$new_category_name."/".$new_card_name.".html", "w");
+                preg_match('/[^\/]+$/', $prod['link'], $new_card_file_name);
+                $new_card_file = fopen($DB_subfolder."/".$new_category_folder_name."/".$new_card_file_name, "w");
                 fwrite($new_card_file, $new_card_text);
                 fclose($new_card_file);
             }
         }
     }
-
+    echo "Файлы страниц созданы.";
+    echo "<br>";
 }
 ?>
