@@ -4,7 +4,7 @@ if ($decoded_db) {
     preg_match("/file_name=\(([^)]*)\)/", $decoded_db, $title_array);
     $decoded_db = str_replace($title_array[0], "", $decoded_db);
     // Перевести в PHP-массив
-    $decoded_db = str_replace(":", " => ", $decoded_db);
+    $decoded_db = str_replace(":", "=>", $decoded_db);
     $decoded_db = preg_replace("/^\{/", "", $decoded_db);
     $decoded_db = preg_replace("/\}$/", "", $decoded_db);
     $decoded_db = preg_replace("/((?<=\"),|\{|\[|\},|\],)/", "$1\r\n", $decoded_db);

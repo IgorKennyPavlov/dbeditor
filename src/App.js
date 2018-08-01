@@ -9,98 +9,98 @@ export default class App extends Component {
         super(props);
         this.state = {
             DB: {
-                // "title" : "хреновины для торговли",
-                // "cardh1title" : "хреновина для торговли",
-                // "link" : "category-thingies_for_trading/items_for_trading.html",
-                // "priceList" : "some/link/to/file.php",
-                // "subcats" : {
-                //     "simple_thingies" : {
-                //         "title" : "простые хреновины",
-                //         "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
-                //         "prods" : {
-                //             "hrenovator_2000" : {
-                //                 "title" : "Хреноватор 2000",
-                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_2000.html",
-                //                 "article" : "111111",
-                //                 "priceType" : "fixed",
-                //                 "prodClass" : "rec",
-                //                 "attributes" : {
-                //                     "мощность" : "100",
-                //                     "скорость" : "100",
-                //                     "харизма" : "100",
-                //                     "сопротивление_огню" : "100"
-                //                 },
-                //                 "images" : "images/image_1.jpg\nimages/image_2.jpg\nimages/image_3.jpg\nimages/image_4.jpg",
-                //                 "primaryProps" : {
-                //                     "свойство 1" : "значение 1",
-                //                     "свойство 2" : "значение 2",
-                //                     "свойство 3" : "значение 3",
-                //                     "свойство 4" : "значение 4"
-                //                 },
-                //                 "infoBlock" : {
-                //                     "props" : {
-                //                         "свойство 1" : "значение 1",
-                //                         "свойство 2" : "значение 2",
-                //                         "свойство 3" : "значение 3",
-                //                         "свойство 4" : "значение 4",
-                //                         "свойство 11" : "значение 11",
-                //                         "свойство 22" : "значение 22",
-                //                         "свойство 33" : "значение 33",
-                //                         "свойство 44" : "значение 44"
-                //                     },
-                //                     "desc" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : "some\n very\nimportant\nvalues",
-                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                //                 }
-                //             }
-                //         }
-                //     },
-                //     "advanced_thingies" : {
-                //         "title" : "продвинутые хреновины",
-                //         "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
-                //         "prods" : {
-                //             "hrenovator_5000m" : {
-                //                 "title" : "Хреноватор 5000М",
-                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_5000m.html",
-                //                 "article" : "777777",
-                //                 "priceType" : "fixed",
-                //                 "prodClass" : "hit",
-                //                 "attributes" : {
-                //                     "мощность" : "1000",
-                //                     "скорость" : "1000",
-                //                     "харизма" : "1000",
-                //                     "сопротивление_огню" : "1000"
-                //                 },
-                //                 "images" : "images/image_11.jpg\nimages/image_12.jpg\nimages/image_13.jpg\nimages/image_14.jpg",
-                //                 "primaryProps" : {
-                //                     "свойство 1" : "значение 1",
-                //                     "свойство 2" : "значение 2",
-                //                     "свойство 3" : "значение 3",
-                //                     "свойство 4" : "значение 4"
-                //                 },
-                //                 "infoBlock" : {
-                //                     "props" : {
-                //                         "свойство 1" : "значение 1",
-                //                         "свойство 2" : "значение 2",
-                //                         "свойство 3" : "значение 3",
-                //                         "свойство 4" : "значение 4",
-                //                         "свойство 11" : "значение 11",
-                //                         "свойство 22" : "значение 22",
-                //                         "свойство 33" : "значение 33",
-                //                         "свойство 44" : "значение 44"
-                //                     },
-                //                     "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur adipisicing elit. Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : "Some\nvery important\nvalues",
-                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
-                "title": "",
-                "cardh1title": "",
-                "link": "",
-                "prods": {}
+                "title" : "хреновины для торговли",
+                "cardh1title" : "хреновина для торговли",
+                "link" : "category-thingies_for_trading/items_for_trading.html",
+                "priceList" : "some/link/to/file.php",
+                "subcats" : {
+                    "simple_thingies" : {
+                        "title" : "простые хреновины",
+                        "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
+                        "prods" : {
+                            "hrenovator_2000" : {
+                                "title" : "Хреноватор 2000",
+                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_2000.html",
+                                "article" : "111111",
+                                "priceType" : "fixed",
+                                "prodClass" : "rec",
+                                "attributes" : {
+                                    "мощность" : "100",
+                                    "скорость" : "100",
+                                    "харизма" : "100",
+                                    "сопротивление_огню" : "100"
+                                },
+                                "images" : "images/image_1.jpg\nimages/image_2.jpg\nimages/image_3.jpg\nimages/image_4.jpg",
+                                "primaryProps" : {
+                                    "свойство 1" : "значение 1",
+                                    "свойство 2" : "значение 2",
+                                    "свойство 3" : "значение 3",
+                                    "свойство 4" : "значение 4"
+                                },
+                                "infoBlock" : {
+                                    "props" : {
+                                        "свойство 1" : "значение 1",
+                                        "свойство 2" : "значение 2",
+                                        "свойство 3" : "значение 3",
+                                        "свойство 4" : "значение 4",
+                                        "свойство 11" : "значение 11",
+                                        "свойство 22" : "значение 22",
+                                        "свойство 33" : "значение 33",
+                                        "свойство 44" : "значение 44"
+                                    },
+                                    "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
+                                    "advantages" : "some\n very\nimportant\nvalues",
+                                    "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
+                                }
+                            }
+                        }
+                    },
+                    "advanced_thingies" : {
+                        "title" : "продвинутые хреновины",
+                        "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
+                        "prods" : {
+                            "hrenovator_5000m" : {
+                                "title" : "Хреноватор 5000М",
+                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_5000m.html",
+                                "article" : "777777",
+                                "priceType" : "fixed",
+                                "prodClass" : "hit",
+                                "attributes" : {
+                                    "мощность" : "1000",
+                                    "скорость" : "1000",
+                                    "харизма" : "1000",
+                                    "сопротивление_огню" : "1000"
+                                },
+                                "images" : "images/image_11.jpg\nimages/image_12.jpg\nimages/image_13.jpg\nimages/image_14.jpg",
+                                "primaryProps" : {
+                                    "свойство 1" : "значение 1",
+                                    "свойство 2" : "значение 2",
+                                    "свойство 3" : "значение 3",
+                                    "свойство 4" : "значение 4"
+                                },
+                                "infoBlock" : {
+                                    "props" : {
+                                        "свойство 1" : "значение 1",
+                                        "свойство 2" : "значение 2",
+                                        "свойство 3" : "значение 3",
+                                        "свойство 4" : "значение 4",
+                                        "свойство 11" : "значение 11",
+                                        "свойство 22" : "значение 22",
+                                        "свойство 33" : "значение 33",
+                                        "свойство 44" : "значение 44"
+                                    },
+                                    "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
+                                    "advantages" : "Some\nvery important\nvalues",
+                                    "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
+                                }
+                            }
+                        }
+                    }
+                }
+                // "title": "",
+                // "cardh1title": "",
+                // "link": "",
+                // "prods": {}
             }
         };
         this.setState = this.setState.bind(this);
@@ -410,15 +410,28 @@ export default class App extends Component {
         DB = "file_name=(" + file_name + ")" + DB;
         let xhr = new XMLHttpRequest();
         // Оформить индексные массивы
-        let indexed_arrays = DB.match(/("(images|advantages)":)(.[^"]*")(,?)/g);
+        let indexed_arrays = DB.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/g);
         indexed_arrays.forEach((old_str, key) => {
-            let current_array = old_str.match(/("(images|advantages)":)(.[^"]*")(,?)/);
+            let current_array = old_str.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/);
             let new_str = current_array[3].replace(/,/g, "\\,");
-            new_str = current_array[3].replace(/\\n/g, "\",\"");
+            new_str = new_str.replace(/\\n/g, "\",\"");
             new_str = new_str.replace(/\s\s/g, " ");
             new_str = new_str.replace(/",\s*"/g, "\",\"");
             new_str = new_str.replace(/,?"\s*"/g, "");
             new_str = current_array[1] + "[" + new_str + "]" + current_array[4];
+            DB = DB.replace(old_str, new_str);
+        });
+        // Оформить ассоциативные массивы
+        let assoc_arrays = DB.match(/("(attributes|primaryProps|props)"\s*:)\s*"?\s*\{\s*([^\}]*)\}"?(,?)/g);
+        assoc_arrays.forEach((old_str, key) => {
+            let current_array = old_str.match(/("(attributes|primaryProps|props)"\s*:)\s*"?\s*\{\s*([^\}]*)\}(,?)/);
+            let new_str = current_array[3].replace(/\\"/g, "\"");
+            new_str = new_str.replace(/\\n\s*/g, "");
+            new_str = new_str.replace(/ (\s)/g, "$1");
+            new_str = new_str.replace(/",\s*"/g, "\",\"");
+            new_str = new_str.replace(/,?"\s*"/g, "");
+            // КОСТЫЛЬ: подстановка запятой в конце - хардкод. Возможное решение: обрабатывать ассоц.массивы перед помещением в state.DB.
+            new_str = current_array[1] + "{" + new_str + "}" + ",";
             DB = DB.replace(old_str, new_str);
         });
         xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
