@@ -136,7 +136,7 @@ export default class InputBlock extends React.Component {
                         </label>
                         <label className="key_container">
                             <span className="key">images</span>
-                            <textarea className="card_input" placeholder="ссылки на изображения (массив)" defaultValue={path.images}/>
+                            <textarea className="card_input" placeholder="ссылки на изображения (массив)" defaultValue={JSON.stringify(path.images, null, " ")}/>
                         </label>
                         <label className="key_container">
                             <span className="key">primaryProps</span>
@@ -170,7 +170,7 @@ export default class InputBlock extends React.Component {
                             </label>
                             <label className="key_container">
                                 <span className="key">advantages</span>
-                                <textarea className="card_input" placeholder="описание преимуществ товара для инфоблока (массив)" defaultValue={path.infoBlock.advantages} />
+                                <textarea className="card_input" placeholder="описание преимуществ товара для инфоблока (массив)" defaultValue={JSON.stringify(path.infoBlock.advantages, null, " ")} />
                             </label>
                             <label className="key_container">
                                 <span className="key">appAreas</span>

@@ -20,7 +20,7 @@ export default class App extends Component {
                         "prods" : {
                             "hrenovator_2000" : {
                                 "title" : "Хреноватор 2000",
-                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_2000.html",
+                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_2000.html",
                                 "article" : "111111",
                                 "priceType" : "fixed",
                                 "prodClass" : "rec",
@@ -30,7 +30,7 @@ export default class App extends Component {
                                     "харизма" : "100",
                                     "сопротивление_огню" : "100"
                                 },
-                                "images" : "images/image_1.jpg\nimages/image_2.jpg\nimages/image_3.jpg\nimages/image_4.jpg",
+                                "images" : ["images/image_11.jpg","images/image_12.jpg","images/image_13.jpg","images/image_14.jpg"],
                                 "primaryProps" : {
                                     "свойство 1" : "значение 1",
                                     "свойство 2" : "значение 2",
@@ -49,7 +49,11 @@ export default class App extends Component {
                                         "свойство 44" : "значение 44"
                                     },
                                     "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                                    "advantages" : "some\n very\nimportant\nvalues",
+                                    "advantages" : [
+                                        "some",
+                                        "very \"important\"",
+                                        "values"
+                                    ],
                                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
                                 }
                             }
@@ -61,7 +65,7 @@ export default class App extends Component {
                         "prods" : {
                             "hrenovator_5000m" : {
                                 "title" : "Хреноватор 5000М",
-                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/prod-hrenovator_5000m.html",
+                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_5000m.html",
                                 "article" : "777777",
                                 "priceType" : "fixed",
                                 "prodClass" : "hit",
@@ -71,7 +75,7 @@ export default class App extends Component {
                                     "харизма" : "1000",
                                     "сопротивление_огню" : "1000"
                                 },
-                                "images" : "images/image_11.jpg\nimages/image_12.jpg\nimages/image_13.jpg\nimages/image_14.jpg",
+                                "images" : ["images/image_11.jpg","images/image_12.jpg","images/image_13.jpg","images/image_14.jpg"],
                                 "primaryProps" : {
                                     "свойство 1" : "значение 1",
                                     "свойство 2" : "значение 2",
@@ -90,7 +94,12 @@ export default class App extends Component {
                                         "свойство 44" : "значение 44"
                                     },
                                     "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                                    "advantages" : "Some\nvery important\nvalues",
+                                    "advantages" : [
+                                        "some",
+                                        "very",
+                                        "cool",
+                                        "values"
+                                    ],
                                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
                                 }
                             }
@@ -406,21 +415,24 @@ export default class App extends Component {
         if (!file_name) {
             file_name = "default_title";
         }
-        let DB = JSON.stringify(this.state.DB).replace(/(\(|\))/g, "\\$1");
+        let DB = JSON.stringify(this.state.DB);
         DB = "file_name=(" + file_name + ")" + DB;
         let xhr = new XMLHttpRequest();
         // Оформить индексные массивы
-        let indexed_arrays = DB.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/g);
-        indexed_arrays.forEach((old_str, key) => {
-            let current_array = old_str.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/);
-            let new_str = current_array[3].replace(/,/g, "\\,");
-            new_str = new_str.replace(/\\n/g, "\",\"");
-            new_str = new_str.replace(/\s\s/g, " ");
-            new_str = new_str.replace(/",\s*"/g, "\",\"");
-            new_str = new_str.replace(/,?"\s*"/g, "");
-            new_str = current_array[1] + "[" + new_str + "]" + current_array[4];
-            DB = DB.replace(old_str, new_str);
-        });
+
+        // Старый функционал обработки индексных массивов. Может пригодиться.
+        // let indexed_arrays = DB.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/g);
+        // indexed_arrays.forEach((old_str, key) => {
+        //     let current_array = old_str.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/);
+        //     let new_str = current_array[3].replace(/,/g, "\\,");
+        //     // new_str = new_str.replace(/"/g, "\\\"");
+        //     new_str = new_str.replace(/\\n/g, "\",\"");
+        //     new_str = new_str.replace(/\s\s/g, " ");
+        //     new_str = new_str.replace(/",\s*"/g, "\",\"");
+        //     new_str = new_str.replace(/,?"\s*"/g, "");
+        //     new_str = current_array[1] + "[" + new_str + "]" + "\"" + current_array[4];
+        //     DB = DB.replace(old_str, new_str);
+        // });
         // Оформить ассоциативные массивы
         let assoc_arrays = DB.match(/("(attributes|primaryProps|props)"\s*:)\s*"?\s*\{\s*([^\}]*)\}"?(,?)/g);
         assoc_arrays.forEach((old_str, key) => {
@@ -434,8 +446,8 @@ export default class App extends Component {
             new_str = current_array[1] + "{" + new_str + "}" + ",";
             DB = DB.replace(old_str, new_str);
         });
-        xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
-        // xhr.open('POST', 'http://dbeditor/build/db_editor.php', true);
+        // xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
+        xhr.open('POST', 'http://dbeditor/build/db_editor.php', true);
         xhr.onload = () => {
             console.log("Готово");
         };

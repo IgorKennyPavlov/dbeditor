@@ -1,10 +1,12 @@
 <?php
 $decoded_db = file_get_contents('php://input');
+var_dump($decoded_db);
+echo "<br>";
 if ($decoded_db) {
     preg_match("/file_name=\(([^)]*)\)/", $decoded_db, $title_array);
     $decoded_db = str_replace($title_array[0], "", $decoded_db);
     // Перевести в PHP-массив
-    $decoded_db = str_replace(":", "=>", $decoded_db);
+    $decoded_db = preg_replace("/\"\s*:\s*(\"|\{|\[)/", "\" => $1", $decoded_db);
     $decoded_db = preg_replace("/^\{/", "", $decoded_db);
     $decoded_db = preg_replace("/\}$/", "", $decoded_db);
     $decoded_db = preg_replace("/((?<=\"),|\{|\[|\},|\],)/", "$1\r\n", $decoded_db);
@@ -20,7 +22,7 @@ if ($decoded_db) {
     $indented_db = "";
     for ($i = 0; $i < count($split_db) - 1; $i++) {
         $str = $split_db[$i];
-        preg_match("/(?<!\\\\)\)/", $str, $end_of_array);
+        preg_match("/(?<=^)\)/", $str, $end_of_array);
         if (strpos($str, 'array(') !== false) {
             $indentation = str_repeat($indent_char, $indent_size * $indent_lvl);
             $str = $indentation . $str . "\r\n";

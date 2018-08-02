@@ -13,12 +13,12 @@ export class CardTemplate {
         this.priceType = "";
         this.prodClass = "";
         this.attributes = {};
-        this.images = "";
+        this.images = [];
         this.primaryProps = {};
         this.infoBlock = {
             props : {},
             desc : "",
-            advantages : "",
+            advantages : [],
             appAreas : ""
         }
     }
