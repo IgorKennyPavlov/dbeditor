@@ -203,10 +203,10 @@ input, textarea {
 }
 .add_item_block-wrap {
     display: flex;
-    text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     margin-bottom: 10px;
 }
 .add_item_block-inner_wrap > input {
@@ -294,7 +294,11 @@ span.key {
 }
 /* Конец блока ввода данных */
 
-/* Кнопка "Создать БД" */
+/* Контрольная панель в футере */
+.footer_control_panel {
+    display: flex;
+    justify-content: space-around;
+}
 .create_db {
     margin-top: 20px;
     font-size: 1.1em;

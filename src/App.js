@@ -8,13 +8,14 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentDBFileURL : null,
             DB: {
-                "title" : "хреновины для торговли",
-                "cardh1title" : "хреновина для торговли",
-                "link" : "category-thingies_for_trading/items_for_trading.html",
-                "priceList" : "some/link/to/file.php",
-                "subcats" : {
-                    "simple_thingies" : {
+                title : "хреновины для торговли",
+                cardh1title : "хреновина для торговли",
+                link : "/category_name-thingies_for_trading/items_for_trading.html",
+                priceList : "some/link/to/file.php",
+                subcats : {
+                    simple_thingies : {
                         "title" : "простые хреновины",
                         "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
                         "prods" : {
@@ -30,7 +31,11 @@ export default class App extends Component {
                                     "харизма" : "100",
                                     "сопротивление_огню" : "100"
                                 },
-                                "images" : ["images/image_11.jpg","images/image_12.jpg","images/image_13.jpg","images/image_14.jpg"],
+                                "images" : [
+                                    "/image1.jpg",
+                                    "/image2.jpg",
+                                    "/image3.jpg"
+                                ],
                                 "primaryProps" : {
                                     "свойство 1" : "значение 1",
                                     "свойство 2" : "значение 2",
@@ -39,19 +44,33 @@ export default class App extends Component {
                                 },
                                 "infoBlock" : {
                                     "props" : {
-                                        "свойство 1" : "значение 1",
-                                        "свойство 2" : "значение 2",
-                                        "свойство 3" : "значение 3",
-                                        "свойство 4" : "значение 4",
-                                        "свойство 11" : "значение 11",
-                                        "свойство 22" : "значение 22",
-                                        "свойство 33" : "значение 33",
-                                        "свойство 44" : "значение 44"
-                                    },
+                                        "Метод печати" : "Прямая термопечать",
+                                        "Разрешение печати" : "203 dpi (8 точек/мм)",
+                                        "Скорость печати" : "88.9 мм/сек",
+                                        "Ширина печати" : "до 72 мм",
+                                        "Ресурс термоголовки" : "более 30 км",
+                                        "Процессор" : "16-разрядный RISC",
+                                        "Память" : "DRAM 512 Кб<br>Flash-ROM 512 Кб",
+                                        "Расходные материалы" : "В рулоне, стопкой, с разделителем, с непрерывной подачей, с перфорацией. Ширина: max - 76 мм, min - 25,4 мм. Толщина от 0,0635 до 0,254 мм. Внешний диаметр рулона 109 мм. Диаметр втулки 25 мм (1').",
+                                        "Поддерживаемые шрифты" : "Стандартный набор символов Int’l 5 алфавитно-цифровых шрифтов от 1,25 до 6,0 мм (0.49-0.23\"). Масштабируемость до 24х24.<br>Ориентация шрифтов (0-270°). Пользовательские шрифты.",
+                                        "Поддерживаемые штрих-коды" : "Code 39, Extended Code 39, Code 93, Code 128 UCC Code 128 (Subset A, B, C) Codabar, Interleave 2 of 5, EAN-8 2&5 дополнительная, EAN-13, EAN-128, UPC, UPC-A, E 2&5 дополнительная, POSTNET, German POST, Matrix 25, Maxicode, PDF-417,Data Matrix.",
+                                        "Графика" : "PPLA: PCX, BMP, IMG, HEX, GDI<br>PPLB: PCX, двоичный растр, GDI",
+                                        "Интерфейс подключения" : "Centronics (параллельный) RS-232 Min Din 6P(последовательный)",
+                                        "Напряжение питания" : "220В 50/60Гц; 21 - 24 В, мин. ток 2,5 А",
+                                        "Габаритные размеры" : "228мм (Д) x 134мм (Ш) x 163мм (В)",
+                                        "Вес" : "1,2 кг",
+                                        "Рабочая температура" : "от 4°С до +38°С",
+                                        "Влажность" : "от 10 до 90 % (при отсутствии конденсата)",
+                                        "Программное обеспечение" : "Пакет Argox PPLA/PPLB Language. Драйвера Windows (98/2000/NT/XP).<br>Программа для создания дизайна и печати этикеток ArgoBar. Утилиты печати и загрузки шрифтов.",
+                                        "Опциональные возможности" : "Отрезатель и отделитель этикеток, карта памяти (2 Мб), внешняя клавиатура, USB-адаптер, принт-сервер для подключения принтера по интерфейсу Ethernet",
+                                        "Гарантийный период" : "12 месяцев",
+                                        "Комплектация" : "Принтер, сетевой адаптер, CD-диск с документацией и программным обеспечением, краткое руководство по установке принтера."
+                                        },
                                     "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
                                     "advantages" : [
                                         "some",
-                                        "very \"important\"",
+                                        "very",
+                                        "cool",
                                         "values"
                                     ],
                                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
@@ -59,7 +78,7 @@ export default class App extends Component {
                             }
                         }
                     },
-                    "advanced_thingies" : {
+                    advanced_thingies : {
                         "title" : "продвинутые хреновины",
                         "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
                         "prods" : {
@@ -75,7 +94,11 @@ export default class App extends Component {
                                     "харизма" : "1000",
                                     "сопротивление_огню" : "1000"
                                 },
-                                "images" : ["images/image_11.jpg","images/image_12.jpg","images/image_13.jpg","images/image_14.jpg"],
+                                "images" : [
+                                    "/image1.jpg",
+                                    "/image2.jpg",
+                                    "/image3.jpg"
+                                ],
                                 "primaryProps" : {
                                     "свойство 1" : "значение 1",
                                     "свойство 2" : "значение 2",
@@ -97,7 +120,7 @@ export default class App extends Component {
                                     "advantages" : [
                                         "some",
                                         "very",
-                                        "cool",
+                                        "\"cool\"",
                                         "values"
                                     ],
                                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
@@ -117,30 +140,6 @@ export default class App extends Component {
 
     addItem = (item, e) => {
         let newDB = this.state.DB;
-        // if (item === "assoc_array_item") {
-        //     let targetKey = this.getParentByClass(e.currentTarget, "key_container").querySelector("span.key").innerText;
-        //     let targetCard = this.getParentByClass(e.currentTarget, "card").id;
-        //     let folder = this.getParentByDataAttr(e.currentTarget, "folder");
-        //     if (folder) {
-        //         folder = folder.dataset.folder;
-        //     }
-        //     let targetArray;
-        //     if (newDB.subcats) {
-        //         let targetSubcat = this.getParentByClass(e.currentTarget, "subcat").id;
-        //         if (folder) {
-        //             targetArray = newDB.subcats[targetSubcat].prods[targetCard][folder][targetKey];
-        //         } else {
-        //             targetArray = newDB.subcats[targetSubcat].prods[targetCard][targetKey];
-        //         }
-        //     } else {
-        //         if (folder) {
-        //             targetArray = newDB.prods[targetCard][folder][targetKey];
-        //         } else {
-        //             targetArray = newDB.prods[targetCard][targetKey];
-        //         }
-        //     }
-        //     targetArray["элемент_" + Object.keys(targetArray).length] = "значение";
-        // } else {
         let newItemTitle = this.getParentByClass(e.currentTarget, "add_item_block-wrap").querySelector("input.new_item_title").value.toLowerCase().replace(/\s+/g, "_");
         if (newItemTitle) {
             if (item === "subcat") {
@@ -176,7 +175,6 @@ export default class App extends Component {
             alert("Введите название для нового элемента.");
             return;
         }
-        // }
         this.setState({
             DB: newDB
         });
@@ -329,11 +327,12 @@ export default class App extends Component {
         let inputClasses = e.currentTarget.classList;
         let newDB = this.state.DB;
         let folder = this.getParentByDataAttr(e.currentTarget, "folder");
+        if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
+            val = JSON.parse(val);
+        }
         if (folder) {
             folder = folder.dataset.folder;
         }
-        e.currentTarget.style.minHeight = "";
-        e.currentTarget.style.minHeight = e.currentTarget.scrollHeight + "px";
         if (inputClasses.contains("category_input")) {
             newDB[key] = val;
         } else if (inputClasses.contains("subcat_input")) {
@@ -356,36 +355,6 @@ export default class App extends Component {
                 }
             }
         }
-        // else if (inputClasses.contains("assoc_array_input")) {
-        //     let cardID = this.getParentByClass(e.currentTarget, "card").id;
-        //     let subcatID;
-        //     let targetArray;
-        //     let prevKey = e.currentTarget.parentElement.dataset.key;
-        //     if(this.getParentByClass(e.currentTarget, "attributes")) {
-        //         val = val.toLowerCase().replace(/\s+/g, "_");
-        //     }
-        //     let prevValue = e.currentTarget.parentElement.dataset.value;
-        //     if (newDB.subcats) {
-        //         subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
-        //         if (folder) {
-        //             targetArray = newDB.subcats[subcatID].prods[cardID][folder][key];
-        //         } else {
-        //             targetArray = newDB.subcats[subcatID].prods[cardID][key];
-        //         }
-        //     } else {
-        //         if (folder) {
-        //             targetArray = newDB.prods[cardID][folder][key];
-        //         } else {
-        //             targetArray = newDB.prods[cardID][key];
-        //         }
-        //     }
-        //     if(inputClasses.contains("key")) {
-        //         targetArray[val] = prevValue;
-        //         delete targetArray[prevKey];
-        //     } else if (inputClasses.contains("value")) {
-        //         targetArray[prevKey] = val;
-        //     }
-        // }
         this.setState({
             DB: newDB
         });
@@ -394,74 +363,134 @@ export default class App extends Component {
     addInputHandlers = () => {
         let inputs = document.querySelectorAll(".input_panel input, .input_panel textarea");
         inputs.forEach((input, index, listObj) => {
+            input.style.minHeight = "";
+            input.style.minHeight = input.scrollHeight + "px";
             input.removeEventListener("input", this.inputHandler);
             input.addEventListener("input", this.inputHandler);
         });
     }
 
     componentDidMount() {
-        let inputs = document.querySelectorAll(".input_panel input, .input_panel textarea");
-        inputs.forEach((input, index, listObj) => {
-            input.style.minHeight = input.scrollHeight + "px";
-        });
         this.addInputHandlers();
     }
     componentDidUpdate() {
         this.addInputHandlers();
     }
 
-    ajaxCreateDB = () => {
-        let file_name = prompt("Введите название файла БД", "file_name").toLowerCase().replace(/\s+/g, "_");
-        if (!file_name) {
-            file_name = "default_title";
+    // Ajax-запросы
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
+    ajaxSaveDB = () => {
+        let placeholder = "db_name-db.php";
+        if(this.state.currentDBFileURL) {
+            placeholder = this.state.currentDBFileURL.match(/[^/]+$/);
         }
-        let DB = JSON.stringify(this.state.DB);
-        DB = "file_name=(" + file_name + ")" + DB;
-        let xhr = new XMLHttpRequest();
-        // Оформить индексные массивы
-
-        // Старый функционал обработки индексных массивов. Может пригодиться.
-        // let indexed_arrays = DB.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/g);
-        // indexed_arrays.forEach((old_str, key) => {
-        //     let current_array = old_str.match(/("(images|advantages)"\s*:)\s*("[^"]*")(,?)/);
-        //     let new_str = current_array[3].replace(/,/g, "\\,");
-        //     // new_str = new_str.replace(/"/g, "\\\"");
-        //     new_str = new_str.replace(/\\n/g, "\",\"");
-        //     new_str = new_str.replace(/\s\s/g, " ");
-        //     new_str = new_str.replace(/",\s*"/g, "\",\"");
-        //     new_str = new_str.replace(/,?"\s*"/g, "");
-        //     new_str = current_array[1] + "[" + new_str + "]" + "\"" + current_array[4];
-        //     DB = DB.replace(old_str, new_str);
-        // });
-        // Оформить ассоциативные массивы
-        let assoc_arrays = DB.match(/("(attributes|primaryProps|props)"\s*:)\s*"?\s*\{\s*([^\}]*)\}"?(,?)/g);
-        assoc_arrays.forEach((old_str, key) => {
-            let current_array = old_str.match(/("(attributes|primaryProps|props)"\s*:)\s*"?\s*\{\s*([^\}]*)\}(,?)/);
-            let new_str = current_array[3].replace(/\\"/g, "\"");
-            new_str = new_str.replace(/\\n\s*/g, "");
-            new_str = new_str.replace(/ (\s)/g, "$1");
-            new_str = new_str.replace(/",\s*"/g, "\",\"");
-            new_str = new_str.replace(/,?"\s*"/g, "");
-            // КОСТЫЛЬ: подстановка запятой в конце - хардкод. Возможное решение: обрабатывать ассоц.массивы перед помещением в state.DB.
-            new_str = current_array[1] + "{" + new_str + "}" + ",";
-            DB = DB.replace(old_str, new_str);
-        });
-        // xhr.open('POST', 'http://victr85.beget.tech/dbeditor/db_editor.php', true);
-        xhr.open('POST', 'http://dbeditor/build/db_editor.php', true);
-        xhr.onload = () => {
-            console.log("Готово");
-        };
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                alert("Запрос выполнен");
-                if (xhr.status === 200) {
-                    alert("Получен положительный ответ.");
-                    document.getElementById("server_reply").innerHTML = "Ответ сервера:<br>" + xhr.responseText;
+        let db_name = prompt("Введите название файла БД", placeholder);
+        if (db_name) {
+            db_name = db_name.toLowerCase().replace(/\s+/g, "_");
+            let DB = JSON.stringify(this.state.DB);
+            DB = "file_name=(" + db_name + ")" + DB;
+            let xhr = new XMLHttpRequest();
+            // xhr.open('POST', this.ajaxPath+'db_save.php', true);
+            xhr.open('POST', this.ajaxPath+'db_save.php', true);
+            xhr.onload = () => {
+                console.log("Запрос на сохранение выполнен");
+            };
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    alert("Запрос выполнен");
+                    if (xhr.status === 200 && xhr.responseText) {
+                        alert("Получен положительный ответ.");
+                        this.setState({
+                            currentDBFileURL: xhr.responseText
+                        })
+                    }
                 }
-            }
-        };
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        xhr.send(DB, file_name);
+            };
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            xhr.send(DB);
+        } else if (db_name !== null) {
+            alert("Необходимо ввести название для файла БД.");
+        }
+        console.log("Отработала функция сохранения БД");
+    }
+
+    ajaxLoadDB = () => {
+        let placeholder = "";
+        if(this.state.currentDBFileURL) {
+            placeholder = this.state.currentDBFileURL;
+        }
+        let db_url = prompt("Введите путь к файлу БД", placeholder);
+        if (db_url) {
+            let newDB;
+            let xhr = new XMLHttpRequest();
+            // xhr.open('POST', this.ajaxPath+'db_load.php', true);
+            xhr.open('POST', this.ajaxPath+'db_load.php', true);
+            xhr.onload = () => {
+                console.log("Запрос на загрузку отправлен успешно");
+            };
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    alert("Запрос выполнен");
+                    if (xhr.status === 200) {
+                        alert("Получен положительный ответ.");
+                        if(xhr.responseText) {
+                            newDB = xhr.responseText;
+                            newDB = JSON.parse(unescape(newDB));
+                            this.setState({
+                                currentDBFileURL: db_url,
+                                DB: newDB
+                            });
+                        } else {
+                            console.log("Пустой ответ");
+                        }
+                    }
+                }
+            };
+            xhr.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
+            xhr.send(db_url);
+        } else if (db_url !== null) {
+            alert("Необходимо ввести путь к файлу БД.");
+        }
+        console.log("Отработала функция загрузки БД");
+    }
+
+    ajaxCreatePages = () => {
+        let placeholder = "";
+        if(this.state.currentDBFileURL) {
+            placeholder = this.state.currentDBFileURL;
+        }
+        let db_url = prompt("Введите путь к файлу БД", placeholder);
+        if(db_url) {
+            let xhr = new XMLHttpRequest();
+            // xhr.open('POST', this.ajaxPath+'db_create_pages.php', true);
+            xhr.open('POST', this.ajaxPath+'db_create_pages.php', true);
+            xhr.onload = () => {
+                console.log("Запрос на создание страниц отправлен успешно");
+            };
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    alert("Запрос выполнен");
+                    if (xhr.status === 200) {
+                        alert("Получен положительный ответ.");
+                        if(xhr.responseText) {
+                            document.getElementById('server_reply').innerHTML = xhr.responseText;
+                        } else {
+                            document.getElementById('server_reply').innerHTML = "Сервер не вернул данные";
+                        }
+                    } else {
+                        console.log("Ошибка при создании страницы. Код статуса: "+xhr.status);
+                    }
+                } else {
+                    console.log("Код состояния готовности: "+xhr.readyState);
+                }
+            };
+            xhr.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
+            xhr.send(db_url);
+        } else if (db_url !== null) {
+            alert("Необходимо ввести путь к файлу.");
+        }
+        console.log("Отработала функция создания страниц");
     }
 
     render() {
@@ -480,10 +509,12 @@ export default class App extends Component {
                         {this.displayCategoryContent()}
                     </div>
                 </div>
-                <div className="add_item_block-wrap">
-                    <div className="btn create_db" onClick={this.ajaxCreateDB}><span className="btn_icon plus">+</span><span className="btn_title">Создать БД</span></div>
+                <div className="footer_control_panel">
+                    <div className="btn create_db" onClick={this.ajaxSaveDB}><span className="btn_icon plus">+</span><span className="btn_title">Сохранить БД</span></div>
+                    <div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
+                    <div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
                 </div>
-                <p id="server_reply"></p>
+                <div id="server_reply"></div>
             </div>
         );
     }
