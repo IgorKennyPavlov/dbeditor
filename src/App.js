@@ -8,131 +8,132 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            autosaveIntervalID: null,
             currentDBFileURL : null,
             DB: {
-                title : "хреновины для торговли",
-                cardh1title : "хреновина для торговли",
-                link : "/category_name-thingies_for_trading/items_for_trading.html",
-                priceList : "some/link/to/file.php",
-                subcats : {
-                    simple_thingies : {
-                        "title" : "простые хреновины",
-                        "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
-                        "prods" : {
-                            "hrenovator_2000" : {
-                                "title" : "Хреноватор 2000",
-                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_2000.html",
-                                "article" : "111111",
-                                "priceType" : "fixed",
-                                "prodClass" : "rec",
-                                "attributes" : {
-                                    "мощность" : "100",
-                                    "скорость" : "100",
-                                    "харизма" : "100",
-                                    "сопротивление_огню" : "100"
-                                },
-                                "images" : [
-                                    "/image1.jpg",
-                                    "/image2.jpg",
-                                    "/image3.jpg"
-                                ],
-                                "primaryProps" : {
-                                    "свойство 1" : "значение 1",
-                                    "свойство 2" : "значение 2",
-                                    "свойство 3" : "значение 3",
-                                    "свойство 4" : "значение 4"
-                                },
-                                "infoBlock" : {
-                                    "props" : {
-                                        "Метод печати" : "Прямая термопечать",
-                                        "Разрешение печати" : "203 dpi (8 точек/мм)",
-                                        "Скорость печати" : "88.9 мм/сек",
-                                        "Ширина печати" : "до 72 мм",
-                                        "Ресурс термоголовки" : "более 30 км",
-                                        "Процессор" : "16-разрядный RISC",
-                                        "Память" : "DRAM 512 Кб<br>Flash-ROM 512 Кб",
-                                        "Расходные материалы" : "В рулоне, стопкой, с разделителем, с непрерывной подачей, с перфорацией. Ширина: max - 76 мм, min - 25,4 мм. Толщина от 0,0635 до 0,254 мм. Внешний диаметр рулона 109 мм. Диаметр втулки 25 мм (1').",
-                                        "Поддерживаемые шрифты" : "Стандартный набор символов Int’l 5 алфавитно-цифровых шрифтов от 1,25 до 6,0 мм (0.49-0.23\"). Масштабируемость до 24х24.<br>Ориентация шрифтов (0-270°). Пользовательские шрифты.",
-                                        "Поддерживаемые штрих-коды" : "Code 39, Extended Code 39, Code 93, Code 128 UCC Code 128 (Subset A, B, C) Codabar, Interleave 2 of 5, EAN-8 2&5 дополнительная, EAN-13, EAN-128, UPC, UPC-A, E 2&5 дополнительная, POSTNET, German POST, Matrix 25, Maxicode, PDF-417,Data Matrix.",
-                                        "Графика" : "PPLA: PCX, BMP, IMG, HEX, GDI<br>PPLB: PCX, двоичный растр, GDI",
-                                        "Интерфейс подключения" : "Centronics (параллельный) RS-232 Min Din 6P(последовательный)",
-                                        "Напряжение питания" : "220В 50/60Гц; 21 - 24 В, мин. ток 2,5 А",
-                                        "Габаритные размеры" : "228мм (Д) x 134мм (Ш) x 163мм (В)",
-                                        "Вес" : "1,2 кг",
-                                        "Рабочая температура" : "от 4°С до +38°С",
-                                        "Влажность" : "от 10 до 90 % (при отсутствии конденсата)",
-                                        "Программное обеспечение" : "Пакет Argox PPLA/PPLB Language. Драйвера Windows (98/2000/NT/XP).<br>Программа для создания дизайна и печати этикеток ArgoBar. Утилиты печати и загрузки шрифтов.",
-                                        "Опциональные возможности" : "Отрезатель и отделитель этикеток, карта памяти (2 Мб), внешняя клавиатура, USB-адаптер, принт-сервер для подключения принтера по интерфейсу Ethernet",
-                                        "Гарантийный период" : "12 месяцев",
-                                        "Комплектация" : "Принтер, сетевой адаптер, CD-диск с документацией и программным обеспечением, краткое руководство по установке принтера."
-                                        },
-                                    "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                                    "advantages" : [
-                                        "some",
-                                        "very",
-                                        "cool",
-                                        "values"
-                                    ],
-                                    "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                                }
-                            }
-                        }
-                    },
-                    advanced_thingies : {
-                        "title" : "продвинутые хреновины",
-                        "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
-                        "prods" : {
-                            "hrenovator_5000m" : {
-                                "title" : "Хреноватор 5000М",
-                                "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_5000m.html",
-                                "article" : "777777",
-                                "priceType" : "fixed",
-                                "prodClass" : "hit",
-                                "attributes" : {
-                                    "мощность" : "1000",
-                                    "скорость" : "1000",
-                                    "харизма" : "1000",
-                                    "сопротивление_огню" : "1000"
-                                },
-                                "images" : [
-                                    "/image1.jpg",
-                                    "/image2.jpg",
-                                    "/image3.jpg"
-                                ],
-                                "primaryProps" : {
-                                    "свойство 1" : "значение 1",
-                                    "свойство 2" : "значение 2",
-                                    "свойство 3" : "значение 3",
-                                    "свойство 4" : "значение 4"
-                                },
-                                "infoBlock" : {
-                                    "props" : {
-                                        "свойство 1" : "значение 1",
-                                        "свойство 2" : "значение 2",
-                                        "свойство 3" : "значение 3",
-                                        "свойство 4" : "значение 4",
-                                        "свойство 11" : "значение 11",
-                                        "свойство 22" : "значение 22",
-                                        "свойство 33" : "значение 33",
-                                        "свойство 44" : "значение 44"
-                                    },
-                                    "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                                    "advantages" : [
-                                        "some",
-                                        "very",
-                                        "\"cool\"",
-                                        "values"
-                                    ],
-                                    "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                                }
-                            }
-                        }
-                    }
-                }
-                // "title": "",
-                // "cardh1title": "",
-                // "link": "",
-                // "prods": {}
+                // title : "хреновины для торговли",
+                // cardh1title : "хреновина для торговли",
+                // link : "/category_name-thingies_for_trading/items_for_trading.html",
+                // priceList : "some/link/to/file.php",
+                // subcats : {
+                //     simple_thingies : {
+                //         "title" : "простые хреновины",
+                //         "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
+                //         "prods" : {
+                //             "hrenovator_2000" : {
+                //                 "title" : "Хреноватор 2000",
+                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_2000.html",
+                //                 "article" : "111111",
+                //                 "priceType" : "fixed",
+                //                 "prodClass" : "rec",
+                //                 "attributes" : {
+                //                     "мощность" : "100",
+                //                     "скорость" : "100",
+                //                     "харизма" : "100",
+                //                     "сопротивление_огню" : "100"
+                //                 },
+                //                 "images" : [
+                //                     "/image1.jpg",
+                //                     "/image2.jpg",
+                //                     "/image3.jpg"
+                //                 ],
+                //                 "primaryProps" : {
+                //                     "свойство 1" : "значение 1",
+                //                     "свойство 2" : "значение 2",
+                //                     "свойство 3" : "значение 3",
+                //                     "свойство 4" : "значение 4"
+                //                 },
+                //                 "infoBlock" : {
+                //                     "props" : {
+                //                         "Метод печати" : "Прямая термопечать",
+                //                         "Разрешение печати" : "203 dpi (8 точек/мм)",
+                //                         "Скорость печати" : "88.9 мм/сек",
+                //                         "Ширина печати" : "до 72 мм",
+                //                         "Ресурс термоголовки" : "более 30 км",
+                //                         "Процессор" : "16-разрядный RISC",
+                //                         "Память" : "DRAM 512 Кб<br>Flash-ROM 512 Кб",
+                //                         "Расходные материалы" : "В рулоне, стопкой, с разделителем, с непрерывной подачей, с перфорацией. Ширина: max - 76 мм, min - 25,4 мм. Толщина от 0,0635 до 0,254 мм. Внешний диаметр рулона 109 мм. Диаметр втулки 25 мм (1').",
+                //                         "Поддерживаемые шрифты" : "Стандартный набор символов Int’l 5 алфавитно-цифровых шрифтов от 1,25 до 6,0 мм (0.49-0.23\"). Масштабируемость до 24х24.<br>Ориентация шрифтов (0-270°). Пользовательские шрифты.",
+                //                         "Поддерживаемые штрих-коды" : "Code 39, Extended Code 39, Code 93, Code 128 UCC Code 128 (Subset A, B, C) Codabar, Interleave 2 of 5, EAN-8 2&5 дополнительная, EAN-13, EAN-128, UPC, UPC-A, E 2&5 дополнительная, POSTNET, German POST, Matrix 25, Maxicode, PDF-417,Data Matrix.",
+                //                         "Графика" : "PPLA: PCX, BMP, IMG, HEX, GDI<br>PPLB: PCX, двоичный растр, GDI",
+                //                         "Интерфейс подключения" : "Centronics (параллельный) RS-232 Min Din 6P(последовательный)",
+                //                         "Напряжение питания" : "220В 50/60Гц; 21 - 24 В, мин. ток 2,5 А",
+                //                         "Габаритные размеры" : "228мм (Д) x 134мм (Ш) x 163мм (В)",
+                //                         "Вес" : "1,2 кг",
+                //                         "Рабочая температура" : "от 4°С до +38°С",
+                //                         "Влажность" : "от 10 до 90 % (при отсутствии конденсата)",
+                //                         "Программное обеспечение" : "Пакет Argox PPLA/PPLB Language. Драйвера Windows (98/2000/NT/XP).<br>Программа для создания дизайна и печати этикеток ArgoBar. Утилиты печати и загрузки шрифтов.",
+                //                         "Опциональные возможности" : "Отрезатель и отделитель этикеток, карта памяти (2 Мб), внешняя клавиатура, USB-адаптер, принт-сервер для подключения принтера по интерфейсу Ethernet",
+                //                         "Гарантийный период" : "12 месяцев",
+                //                         "Комплектация" : "Принтер, сетевой адаптер, CD-диск с документацией и программным обеспечением, краткое руководство по установке принтера."
+                //                         },
+                //                     "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
+                //                     "advantages" : [
+                //                         "some",
+                //                         "very",
+                //                         "cool",
+                //                         "values"
+                //                     ],
+                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
+                //                 }
+                //             }
+                //         }
+                //     },
+                //     advanced_thingies : {
+                //         "title" : "продвинутые хреновины",
+                //         "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
+                //         "prods" : {
+                //             "hrenovator_5000m" : {
+                //                 "title" : "Хреноватор 5000М",
+                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_5000m.html",
+                //                 "article" : "777777",
+                //                 "priceType" : "fixed",
+                //                 "prodClass" : "hit",
+                //                 "attributes" : {
+                //                     "мощность" : "1000",
+                //                     "скорость" : "1000",
+                //                     "харизма" : "1000",
+                //                     "сопротивление_огню" : "1000"
+                //                 },
+                //                 "images" : [
+                //                     "/image1.jpg",
+                //                     "/image2.jpg",
+                //                     "/image3.jpg"
+                //                 ],
+                //                 "primaryProps" : {
+                //                     "свойство 1" : "значение 1",
+                //                     "свойство 2" : "значение 2",
+                //                     "свойство 3" : "значение 3",
+                //                     "свойство 4" : "значение 4"
+                //                 },
+                //                 "infoBlock" : {
+                //                     "props" : {
+                //                         "свойство 1" : "значение 1",
+                //                         "свойство 2" : "значение 2",
+                //                         "свойство 3" : "значение 3",
+                //                         "свойство 4" : "значение 4",
+                //                         "свойство 11" : "значение 11",
+                //                         "свойство 22" : "значение 22",
+                //                         "свойство 33" : "значение 33",
+                //                         "свойство 44" : "значение 44"
+                //                     },
+                //                     "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
+                //                     "advantages" : [
+                //                         "some",
+                //                         "very",
+                //                         "\"cool\"",
+                //                         "values"
+                //                     ],
+                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+                "title": "",
+                "cardh1title": "",
+                "link": "",
+                "prods": {}
             }
         };
         this.setState = this.setState.bind(this);
@@ -372,6 +373,7 @@ export default class App extends Component {
 
     componentDidMount() {
         this.addInputHandlers();
+        this.autosave();
     }
     componentDidUpdate() {
         this.addInputHandlers();
@@ -380,19 +382,26 @@ export default class App extends Component {
     // Ajax-запросы
     ajaxPath = "http://victr85.beget.tech/dbeditor/";
     // ajaxPath = "http://dbeditor/build/";
-    ajaxSaveDB = () => {
+    saveScript = "db_save.php";
+    loadScript = "db_load.php";
+    createPagesScript = "db_create_pages.php";
+
+    ajaxSaveDB = (e, autosave = false) => {
         let placeholder = "db_name-db.php";
         if(this.state.currentDBFileURL) {
             placeholder = this.state.currentDBFileURL.match(/[^/]+$/);
         }
-        let db_name = prompt("Введите название файла БД", placeholder);
+        let message = "Введите название файла БД";
+        if(autosave) {
+            message = "Напоминаем, что пора сохранить работу. Введите название файла БД.";
+        }
+        let db_name = prompt(message, placeholder);
         if (db_name) {
             db_name = db_name.toLowerCase().replace(/\s+/g, "_");
             let DB = JSON.stringify(this.state.DB);
             DB = "file_name=(" + db_name + ")" + DB;
             let xhr = new XMLHttpRequest();
-            // xhr.open('POST', this.ajaxPath+'db_save.php', true);
-            xhr.open('POST', this.ajaxPath+'db_save.php', true);
+            xhr.open('POST', this.ajaxPath + this.saveScript, true);
             xhr.onload = () => {
                 console.log("Запрос на сохранение выполнен");
             };
@@ -401,8 +410,10 @@ export default class App extends Component {
                     alert("Запрос выполнен");
                     if (xhr.status === 200 && xhr.responseText) {
                         alert("Получен положительный ответ.");
+                        clearInterval(this.state.autosaveIntervalID);
+                        this.autosave();
                         this.setState({
-                            currentDBFileURL: xhr.responseText
+                            currentDBFileURL: xhr.responseText,
                         })
                     }
                 }
@@ -424,8 +435,7 @@ export default class App extends Component {
         if (db_url) {
             let newDB;
             let xhr = new XMLHttpRequest();
-            // xhr.open('POST', this.ajaxPath+'db_load.php', true);
-            xhr.open('POST', this.ajaxPath+'db_load.php', true);
+            xhr.open('POST', this.ajaxPath + this.loadScript, true);
             xhr.onload = () => {
                 console.log("Запрос на загрузку отправлен успешно");
             };
@@ -463,8 +473,7 @@ export default class App extends Component {
         let db_url = prompt("Введите путь к файлу БД", placeholder);
         if(db_url) {
             let xhr = new XMLHttpRequest();
-            // xhr.open('POST', this.ajaxPath+'db_create_pages.php', true);
-            xhr.open('POST', this.ajaxPath+'db_create_pages.php', true);
+            xhr.open('POST', this.ajaxPath + this.createPagesScript, true);
             xhr.onload = () => {
                 console.log("Запрос на создание страниц отправлен успешно");
             };
@@ -493,6 +502,20 @@ export default class App extends Component {
         console.log("Отработала функция создания страниц");
     }
 
+    autosave = () => {
+        let checked = document.getElementById("autosave_checkbox").checked;
+        if(checked) {
+            this.setState({
+                autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), 300000)
+            });
+        } else {
+            clearInterval(this.state.autosaveIntervalID);
+            this.setState({
+                autosaveIntervalID: null
+            });
+        }
+    }
+
     render() {
         return (
             <div className="container">
@@ -513,6 +536,9 @@ export default class App extends Component {
                     <div className="btn create_db" onClick={this.ajaxSaveDB}><span className="btn_icon plus">+</span><span className="btn_title">Сохранить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
+                </div>
+                <div className="autosave">
+                    <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.autosave} /> Автосохранение (5 мин. без сохранения)</label>
                 </div>
                 <div id="server_reply"></div>
             </div>
