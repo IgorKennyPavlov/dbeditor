@@ -183,13 +183,13 @@ export default class App extends Component {
 
     minimizeItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
-        let minimized = targetEl.dataset.minimized;
-        if (minimized) {
-            targetEl.querySelector(".item_content").style.display = "flex";
-            delete targetEl.dataset.minimized;
-        } else {
-            targetEl.querySelector(".item_content").style.display = "none";
-            targetEl.dataset.minimized = true;
+        targetEl.classList.toggle("minimized");
+        if(targetEl.classList.contains("card")) {
+            let textareas = targetEl.querySelectorAll("textarea");
+            textareas.forEach(textarea => {
+                textarea.style.minHeight = "";
+                textarea.style.minHeight = textarea.scrollHeight + "px";
+            });
         }
     }
     deleteItem = (e) => {
@@ -243,7 +243,7 @@ export default class App extends Component {
         let subcatIndex = 0;
         for (let subcat in subcatFolder) {
             subcatBlocks.push(
-                <div key={subcatIndex} className="subcat" id={subcat} data-item-role="db_item">
+                <div key={subcatIndex} className="subcat minimized" id={subcat} data-item-role="db_item" >
                     <div className="ui_control_block">
                         <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
                         <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
@@ -270,7 +270,7 @@ export default class App extends Component {
         let productIndex = 0;
         for (let product in prodsFolder) {
             prodBlocks.push(
-                <div key={productIndex} className="card" id={product} data-item-role="db_item">
+                <div key={productIndex} className="card minimized" id={product} data-item-role="db_item">
                     <div className="ui_control_block" data-item-role="something">
                         <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
                         <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
@@ -327,12 +327,8 @@ export default class App extends Component {
         let val = e.currentTarget.value;
         let inputClasses = e.currentTarget.classList;
         let newDB = this.state.DB;
-        let folder = this.getParentByDataAttr(e.currentTarget, "folder");
         if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
             val = JSON.parse(val);
-        }
-        if (folder) {
-            folder = folder.dataset.folder;
         }
         if (inputClasses.contains("category_input")) {
             newDB[key] = val;
@@ -343,17 +339,9 @@ export default class App extends Component {
             let cardID = this.getParentByClass(e.currentTarget, "card").id;
             if (newDB.subcats) {
                 let subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
-                if (folder) {
-                    newDB.subcats[subcatID].prods[cardID][folder][key] = val;
-                } else {
-                    newDB.subcats[subcatID].prods[cardID][key] = val;
-                }
+                newDB.subcats[subcatID].prods[cardID][key] = val;
             } else {
-                if (folder) {
-                    newDB.prods[cardID][folder][key] = val;
-                } else {
-                    newDB.prods[cardID][key] = val;
-                }
+                newDB.prods[cardID][key] = val;
             }
         }
         this.setState({
@@ -361,15 +349,26 @@ export default class App extends Component {
         });
     }
 
+    resizeTextarea = (e) => {
+        // При изменении содержания полей ввода меняется их высота. Пока не удалять.
+        e.currentTarget.style.minHeight = "";
+        e.currentTarget.style.minHeight = e.currentTarget.scrollHeight + "px";
+    }
+
     addInputHandlers = () => {
         let inputs = document.querySelectorAll(".input_panel input, .input_panel textarea");
         inputs.forEach((input, index, listObj) => {
-            input.style.minHeight = "";
-            input.style.minHeight = input.scrollHeight + "px";
-            input.removeEventListener("input", this.inputHandler);
-            input.addEventListener("input", this.inputHandler);
+            input.removeEventListener("change", this.inputHandler);
+            input.addEventListener("change", this.inputHandler);
+        });
+        
+        let textareas = document.querySelectorAll(".input_panel textarea");
+        textareas.forEach((textarea, index, listObj) => {
+            textarea.removeEventListener("input", this.resizeTextarea);
+            textarea.addEventListener("input", this.resizeTextarea);
         });
     }
+    
 
     componentDidMount() {
         this.addInputHandlers();
@@ -380,8 +379,8 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    // ajaxPath = "http://dbeditor/build/";
+    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -397,6 +396,7 @@ export default class App extends Component {
         }
         let db_name = prompt(message, placeholder);
         if (db_name) {
+            document.getElementById("modal_loading").classList.remove("hidden");
             db_name = db_name.toLowerCase().replace(/\s+/g, "_");
             let DB = JSON.stringify(this.state.DB);
             DB = "file_name=(" + db_name + ")" + DB;
@@ -408,8 +408,10 @@ export default class App extends Component {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     alert("Запрос выполнен");
+                    document.getElementById("modal_loading").classList.add("hidden");
                     if (xhr.status === 200 && xhr.responseText) {
                         alert("Получен положительный ответ.");
+                        document.getElementById('server_reply').innerHTML = xhr.responseText;
                         clearInterval(this.state.autosaveIntervalID);
                         this.autosave();
                         this.setState({
@@ -425,6 +427,19 @@ export default class App extends Component {
         }
         console.log("Отработала функция сохранения БД");
     }
+    autosave = () => {
+        let checked = document.getElementById("autosave_checkbox").checked;
+        if(checked) {
+            this.setState({
+                autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), 300000)
+            });
+        } else {
+            clearInterval(this.state.autosaveIntervalID);
+            this.setState({
+                autosaveIntervalID: null
+            });
+        }
+    }
 
     ajaxLoadDB = () => {
         let placeholder = "";
@@ -433,6 +448,7 @@ export default class App extends Component {
         }
         let db_url = prompt("Введите путь к файлу БД", placeholder);
         if (db_url) {
+            document.getElementById("modal_loading").classList.remove("hidden");
             let newDB;
             let xhr = new XMLHttpRequest();
             xhr.open('POST', this.ajaxPath + this.loadScript, true);
@@ -442,13 +458,13 @@ export default class App extends Component {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     alert("Запрос выполнен");
+                    document.getElementById("modal_loading").classList.add("hidden");
                     if (xhr.status === 200) {
                         alert("Получен положительный ответ.");
                         if(xhr.responseText) {
                             newDB = xhr.responseText;
                             newDB = JSON.parse(unescape(newDB));
                             this.setState({
-                                currentDBFileURL: db_url,
                                 DB: newDB
                             });
                         } else {
@@ -472,6 +488,7 @@ export default class App extends Component {
         }
         let db_url = prompt("Введите путь к файлу БД", placeholder);
         if(db_url) {
+            document.getElementById("modal_loading").classList.remove("hidden");
             let xhr = new XMLHttpRequest();
             xhr.open('POST', this.ajaxPath + this.createPagesScript, true);
             xhr.onload = () => {
@@ -480,6 +497,7 @@ export default class App extends Component {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     alert("Запрос выполнен");
+                    document.getElementById("modal_loading").classList.add("hidden");
                     if (xhr.status === 200) {
                         alert("Получен положительный ответ.");
                         if(xhr.responseText) {
@@ -502,23 +520,14 @@ export default class App extends Component {
         console.log("Отработала функция создания страниц");
     }
 
-    autosave = () => {
-        let checked = document.getElementById("autosave_checkbox").checked;
-        if(checked) {
-            this.setState({
-                autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), 300000)
-            });
-        } else {
-            clearInterval(this.state.autosaveIntervalID);
-            this.setState({
-                autosaveIntervalID: null
-            });
-        }
-    }
-
     render() {
+        console.log(this.state.DB);
         return (
             <div className="container">
+                <div className="modal_loading hidden" id="modal_loading">
+                    <img src="loader.gif" alt="индикатор загрузки"/>
+                    <p>Загрузка...</p>
+                </div>
                 <div className="col_titles_block">
                     <div className="col_title">Категория</div>
                     <div className="col_title">Подкатегории</div>

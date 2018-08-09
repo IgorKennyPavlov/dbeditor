@@ -3,7 +3,8 @@
     padding: 0;
 }
 /* Общие */
-.hidden {
+.hidden,
+.minimized .item_content {
     display: none !important;
 }
 .disabled {
@@ -21,6 +22,29 @@ input, textarea {
 .container {
     display: flex;
     flex-direction: column;
+}
+/* Модальное окно загрузки */
+.modal_loading {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(255,255,255,.9);
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal_loading img {
+    width: 100px;
+}
+.modal_loading p {
+    margin: 10px;
 }
 /* Кнопка */
 .btn {
@@ -318,6 +342,7 @@ span.key {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 .autosave input {
     height: 20px;

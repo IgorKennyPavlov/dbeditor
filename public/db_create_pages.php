@@ -1,6 +1,5 @@
 <?php
 $url = file_get_contents('php://input');
-$DB_subfolder = "new_categories";
 // Составляется маршрут к расположению данных в БД
 function create_path_array($subcat = null, $prod = null) {
     $path_components = '"category" => "'.$GLOBALS['category'].'"';
@@ -117,11 +116,13 @@ if ($url) {
     include_once $url;
     // Если подключилась, то формируются страницы
     if(isset($db)) {
+        preg_match('/^(.*)\/([^.]*).(.*)$/', $url, $DB_subfolder);
+        $DB_folder = "new_categories/".$DB_subfolder[2];
         $new_category_text = create_category_page(create_path_array());
         preg_match('/^(.*)\/(.*)$/', $db['link'], $new_category_link);
         $new_category_folder = $new_category_link[1];
         $new_category_name = $new_category_link[2];
-        $path = $DB_subfolder.$new_category_folder;
+        $path = $DB_folder.$new_category_folder;
         if(!is_dir($path)) {
             if (!mkdir($path, 0777, true)) {
                 die("Не удалось создать папки для категории");
@@ -137,7 +138,7 @@ if ($url) {
                 preg_match('/^(.*)\/(.*)$/', $subcat['link'], $new_subcat_link);
                 $new_subcat_folder = $new_subcat_link[1];
                 $new_subcat_name = $new_subcat_link[2];
-                $path = $DB_subfolder.$new_subcat_folder;
+                $path = $DB_folder.$new_subcat_folder;
                 if(!is_dir($path)) {
                     if (!mkdir($path, 0777, true)) {
                         die("Не удалось создать папки для подкатегории $subcat_key");
@@ -153,7 +154,7 @@ if ($url) {
                         preg_match('/^(.*)\/(.*)$/', $prod['link'], $new_prod_link);
                         $new_prod_folder = $new_prod_link[1];
                         $new_prod_name = $new_prod_link[2];
-                        $path = $DB_subfolder.$new_prod_folder;
+                        $path = $DB_folder.$new_prod_folder;
                         if(!is_dir($path)) {
                             if (!mkdir($path, 0777, true)) {
                                 die("Не удалось создать папки для товара $prod_key");
@@ -172,7 +173,7 @@ if ($url) {
                 preg_match('/^(.*)\/(.*)$/', $prod['link'], $new_prod_link);
                 $new_prod_folder = $new_prod_link[1];
                 $new_prod_name = $new_prod_link[2];
-                $path = $DB_subfolder.$new_prod_folder;
+                $path = $DB_folder.$new_prod_folder;
                 if(!is_dir($path)) {
                     if (!mkdir($path, 0777, true)) {
                         die("Не удалось создать папки для товара $prod_key");
