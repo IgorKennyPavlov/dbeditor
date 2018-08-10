@@ -379,8 +379,8 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    ajaxPath = "http://dbeditor/build/";
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
