@@ -11,128 +11,11 @@ export default class App extends Component {
             autosaveIntervalID: null,
             currentDBFileURL : null,
             DB: {
-                // title : "хреновины для торговли",
-                // cardh1title : "хреновина для торговли",
-                // link : "/category_name-thingies_for_trading/items_for_trading.html",
-                // priceList : "some/link/to/file.php",
-                // subcats : {
-                //     simple_thingies : {
-                //         "title" : "простые хреновины",
-                //         "link" : "/category-thingies_for_trading/subcat-simple_thingies/simple_thingies.html",
-                //         "prods" : {
-                //             "hrenovator_2000" : {
-                //                 "title" : "Хреноватор 2000",
-                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_2000.html",
-                //                 "article" : "111111",
-                //                 "priceType" : "fixed",
-                //                 "prodClass" : "rec",
-                //                 "attributes" : {
-                //                     "мощность" : "100",
-                //                     "скорость" : "100",
-                //                     "харизма" : "100",
-                //                     "сопротивление_огню" : "100"
-                //                 },
-                //                 "images" : [
-                //                     "/image1.jpg",
-                //                     "/image2.jpg",
-                //                     "/image3.jpg"
-                //                 ],
-                //                 "primaryProps" : {
-                //                     "свойство 1" : "значение 1",
-                //                     "свойство 2" : "значение 2",
-                //                     "свойство 3" : "значение 3",
-                //                     "свойство 4" : "значение 4"
-                //                 },
-                //                 "infoBlock" : {
-                //                     "props" : {
-                //                         "Метод печати" : "Прямая термопечать",
-                //                         "Разрешение печати" : "203 dpi (8 точек/мм)",
-                //                         "Скорость печати" : "88.9 мм/сек",
-                //                         "Ширина печати" : "до 72 мм",
-                //                         "Ресурс термоголовки" : "более 30 км",
-                //                         "Процессор" : "16-разрядный RISC",
-                //                         "Память" : "DRAM 512 Кб<br>Flash-ROM 512 Кб",
-                //                         "Расходные материалы" : "В рулоне, стопкой, с разделителем, с непрерывной подачей, с перфорацией. Ширина: max - 76 мм, min - 25,4 мм. Толщина от 0,0635 до 0,254 мм. Внешний диаметр рулона 109 мм. Диаметр втулки 25 мм (1').",
-                //                         "Поддерживаемые шрифты" : "Стандартный набор символов Int’l 5 алфавитно-цифровых шрифтов от 1,25 до 6,0 мм (0.49-0.23\"). Масштабируемость до 24х24.<br>Ориентация шрифтов (0-270°). Пользовательские шрифты.",
-                //                         "Поддерживаемые штрих-коды" : "Code 39, Extended Code 39, Code 93, Code 128 UCC Code 128 (Subset A, B, C) Codabar, Interleave 2 of 5, EAN-8 2&5 дополнительная, EAN-13, EAN-128, UPC, UPC-A, E 2&5 дополнительная, POSTNET, German POST, Matrix 25, Maxicode, PDF-417,Data Matrix.",
-                //                         "Графика" : "PPLA: PCX, BMP, IMG, HEX, GDI<br>PPLB: PCX, двоичный растр, GDI",
-                //                         "Интерфейс подключения" : "Centronics (параллельный) RS-232 Min Din 6P(последовательный)",
-                //                         "Напряжение питания" : "220В 50/60Гц; 21 - 24 В, мин. ток 2,5 А",
-                //                         "Габаритные размеры" : "228мм (Д) x 134мм (Ш) x 163мм (В)",
-                //                         "Вес" : "1,2 кг",
-                //                         "Рабочая температура" : "от 4°С до +38°С",
-                //                         "Влажность" : "от 10 до 90 % (при отсутствии конденсата)",
-                //                         "Программное обеспечение" : "Пакет Argox PPLA/PPLB Language. Драйвера Windows (98/2000/NT/XP).<br>Программа для создания дизайна и печати этикеток ArgoBar. Утилиты печати и загрузки шрифтов.",
-                //                         "Опциональные возможности" : "Отрезатель и отделитель этикеток, карта памяти (2 Мб), внешняя клавиатура, USB-адаптер, принт-сервер для подключения принтера по интерфейсу Ethernet",
-                //                         "Гарантийный период" : "12 месяцев",
-                //                         "Комплектация" : "Принтер, сетевой адаптер, CD-диск с документацией и программным обеспечением, краткое руководство по установке принтера."
-                //                         },
-                //                     "desc" : "Lorem ipsum dolor sit amet consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : [
-                //                         "some",
-                //                         "very",
-                //                         "cool",
-                //                         "values"
-                //                     ],
-                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus doloremque ipsam odit aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                //                 }
-                //             }
-                //         }
-                //     },
-                //     advanced_thingies : {
-                //         "title" : "продвинутые хреновины",
-                //         "link" : "/category-thingies_for_trading/subcat-advanced_thingies/advanced_thingies.html",
-                //         "prods" : {
-                //             "hrenovator_5000m" : {
-                //                 "title" : "Хреноватор 5000М",
-                //                 "link" : "/category-thingies_for_trading/subcat-simple_thingies/hrenovator_5000m.html",
-                //                 "article" : "777777",
-                //                 "priceType" : "fixed",
-                //                 "prodClass" : "hit",
-                //                 "attributes" : {
-                //                     "мощность" : "1000",
-                //                     "скорость" : "1000",
-                //                     "харизма" : "1000",
-                //                     "сопротивление_огню" : "1000"
-                //                 },
-                //                 "images" : [
-                //                     "/image1.jpg",
-                //                     "/image2.jpg",
-                //                     "/image3.jpg"
-                //                 ],
-                //                 "primaryProps" : {
-                //                     "свойство 1" : "значение 1",
-                //                     "свойство 2" : "значение 2",
-                //                     "свойство 3" : "значение 3",
-                //                     "свойство 4" : "значение 4"
-                //                 },
-                //                 "infoBlock" : {
-                //                     "props" : {
-                //                         "свойство 1" : "значение 1",
-                //                         "свойство 2" : "значение 2",
-                //                         "свойство 3" : "значение 3",
-                //                         "свойство 4" : "значение 4",
-                //                         "свойство 11" : "значение 11",
-                //                         "свойство 22" : "значение 22",
-                //                         "свойство 33" : "значение 33",
-                //                         "свойство 44" : "значение 44"
-                //                     },
-                //                     "desc" : "Lorem ipsum <b>dolor sit amet</b> consectetur (adipisicing elit). Molestias facilis delectus quae nobis ipsa consequatur unde nisi ipsam doloribus, explicabo commodi veritatis temporibus pariatur magni dolorem ducimus dolor, laborum deleniti?",
-                //                     "advantages" : [
-                //                         "some",
-                //                         "very",
-                //                         "\"cool\"",
-                //                         "values"
-                //                     ],
-                //                     "appAreas" : "Lorem ipsum dolor sit amet consectetur (adipisicing) elit. Itaque quasi accusamus totam delectus <i>doloremque ipsam odit</i> aliquid provident ex expedita recusandae tempore repellendus deserunt, nobis dolorem! Sint eos ipsum ex."
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
                 "title": "",
                 "cardh1title": "",
                 "link": "",
+                "desc": "",
+                "priceList": "",
                 "prods": {}
             }
         };
@@ -323,25 +206,42 @@ export default class App extends Component {
     }
 
     inputHandler = (e) => {
-        let key = this.getParentByClass(e.currentTarget, "key_container").querySelector("span.key").innerText;
-        let val = e.currentTarget.value;
-        let inputClasses = e.currentTarget.classList;
+        let targetInput = e.currentTarget;
+        targetInput.style.borderColor = "#555";
+        let key = this.getParentByClass(targetInput, "key_container").querySelector("span.key").innerText;
+        let val = targetInput.value;
+        let inputClasses = targetInput.classList;
         let newDB = this.state.DB;
         if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
-            val = JSON.parse(val);
+            try {
+                val = JSON.parse(val);
+            } catch(e) {
+                targetInput.style.borderColor = "#f00";
+                alert(`В поле допущена ошибка. Проверьте синтаксис.`);
+            }
         }
         if (inputClasses.contains("category_input")) {
             newDB[key] = val;
         } else if (inputClasses.contains("subcat_input")) {
-            let subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
+            let subcatID = this.getParentByClass(targetInput, "subcat").id;
             newDB.subcats[subcatID][key] = val;
         } else if (inputClasses.contains("card_input")) {
-            let cardID = this.getParentByClass(e.currentTarget, "card").id;
-            if (newDB.subcats) {
-                let subcatID = this.getParentByClass(e.currentTarget, "subcat").id;
-                newDB.subcats[subcatID].prods[cardID][key] = val;
+            let cardID = this.getParentByClass(targetInput, "card").id;
+            let infoBlock = this.getParentByDataAttr(targetInput, "subfolder", "infoBlock");
+            if(infoBlock) {
+                if (newDB.subcats) {
+                    let subcatID = this.getParentByClass(targetInput, "subcat").id;
+                    newDB.subcats[subcatID].prods[cardID].infoBlock[key] = val;
+                } else {
+                    newDB.prods[cardID].infoBlock[key] = val;
+                }
             } else {
-                newDB.prods[cardID][key] = val;
+                if (newDB.subcats) {
+                    let subcatID = this.getParentByClass(targetInput, "subcat").id;
+                    newDB.subcats[subcatID].prods[cardID][key] = val;
+                } else {
+                    newDB.prods[cardID][key] = val;
+                }
             }
         }
         this.setState({
@@ -521,7 +421,6 @@ export default class App extends Component {
     }
 
     render() {
-        console.log(this.state.DB);
         return (
             <div className="container">
                 <div className="modal_loading hidden" id="modal_loading">

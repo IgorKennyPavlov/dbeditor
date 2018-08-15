@@ -2,6 +2,7 @@ export class SubcatTemplate {
     constructor() {
         this.title = "";
         this.link = "";
+        this.desc = "",
         this.prods = {};
     }
 }
@@ -19,7 +20,8 @@ export class CardTemplate {
             props : {},
             desc : "",
             advantages : [],
-            appAreas : ""
+            appAreas : "",
+            video: ""
         }
     }
 }

@@ -18,12 +18,16 @@ export default class InputBlock extends React.Component {
                             <input type="text" className="category_input" placeholder="название товара (ед.ч.)" defaultValue={DB.cardh1title} />
                         </label>
                         <label className="key_container">
+                            <span className="key">desc</span>
+                            <textarea className="category_input" placeholder="описание категории" defaultValue={DB.desc} />
+                        </label>
+                        <label className="key_container">
                             <span className="key">link</span>
                             <textarea className="category_input" placeholder="ссылка на страницу категории" defaultValue={DB.link} />
                         </label>
                         <label className="key_container">
                             <span className="key">priceList</span>
-                            <input type="text" className="category_input" placeholder="ссылка на прайс-лист" defaultValue={DB.priceList} />
+                            <textarea className="category_input" placeholder="ссылка на прайс-лист" defaultValue={DB.priceList} />
                         </label>
                     </div>;
                 break;
@@ -34,6 +38,10 @@ export default class InputBlock extends React.Component {
                         <label className="key_container">
                             <span className="key">title</span>
                             <input type="text" className="subcat_input" placeholder="название подкатегории" defaultValue={DB.subcats[subcat].title} />
+                        </label>
+                        <label className="key_container">
+                            <span className="key">desc</span>
+                            <textarea className="subcat_input" placeholder="описание подкатегории" defaultValue={DB.subcats[subcat].desc} />
                         </label>
                         <label className="key_container">
                             <span className="key">link</span>
@@ -105,7 +113,7 @@ export default class InputBlock extends React.Component {
                             <span className="key">primaryProps</span>
                             <textarea className="card_input" placeholder="ассоц. массив" defaultValue={JSON.stringify(path.primaryProps, null, 4)} />
                         </label>
-                        <div className="infoBlock" data-folder="infoBlock">
+                        <div className="infoBlock" data-subfolder="infoBlock">
                             <p>infoBlock</p>
                             <label className="key_container">
                                 <span className="key">props</span>
@@ -122,6 +130,10 @@ export default class InputBlock extends React.Component {
                             <label className="key_container">
                                 <span className="key">appAreas</span>
                                 <textarea className="card_input" placeholder="описание областей применения для инфоблока" defaultValue={path.infoBlock.appAreas} />
+                            </label>
+                            <label className="key_container">
+                                <span className="key">video</span>
+                                <textarea className="card_input" placeholder="ссылка на видеоматериал" defaultValue={path.infoBlock.video} />
                             </label>
                         </div>
                     </div>;
