@@ -22,6 +22,39 @@ export default class App extends Component {
         this.setState = this.setState.bind(this);
     }
 
+    getParentByClass = (el, targetParentClass) => {
+        let currentParent = el.parentElement;
+        while (!currentParent.classList.contains(targetParentClass)) {
+            if (currentParent === document.body) {
+                return false;
+            }
+            currentParent = currentParent.parentElement;
+        }
+        return currentParent;
+    }
+    getParentByDataAttr = (el, dataAttrName, dataAttrValue = null) => {
+        let currentParent = el.parentElement;
+        let found = false;
+        while (!found) {
+            if (currentParent === document.body) {
+                return false;
+            }
+            if(currentParent.dataset[dataAttrName]) {
+                if(dataAttrValue) {
+                    if(dataAttrValue === currentParent.dataset[dataAttrName]) {
+                        found = true;
+                        continue;
+                    }
+                } else {
+                    found = true;
+                    continue;
+                }
+            }
+            currentParent = currentParent.parentElement;
+        }
+        return currentParent;
+    }
+
     addItem = (item, e) => {
         let newDB = this.state.DB;
         let newItemTitle = this.getParentByClass(e.currentTarget, "add_item_block-wrap").querySelector("input.new_item_title").value.toLowerCase().replace(/\s+/g, "_");
@@ -75,6 +108,7 @@ export default class App extends Component {
             });
         }
     }
+
     deleteItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let newDB = this.state.DB;
@@ -134,7 +168,7 @@ export default class App extends Component {
                     <span className="subcat_header">{subcat}</span>
                     <div className="subcat_wrap item_content">
                         <div className="editor_block-col col_left">
-                            <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} setState={this.setState} addItem={this.addItem} />
+                            <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} inputHandler={this.inputHandler} />
                         </div>
                         <div className="editor_block-col col_right">
                             {this.displayCards(subcatFolder[subcat].prods, subcat)}
@@ -160,10 +194,7 @@ export default class App extends Component {
                     </div>
                     <span className="card_header">{product}</span>
                     <div className="item_content">
-                        {subcat ?
-                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} product={product} subcat={subcat} addItem={this.addItem} /> :
-                            <InputBlock itemType="card" DB={this.state.DB} setState={this.setState} product={product} addItem={this.addItem} />
-                        }
+                        <InputBlock itemType="card" DB={this.state.DB} inputHandler={this.inputHandler} product={product} subcat={subcat} />
                     </div>
                 </div>
             );
@@ -172,44 +203,14 @@ export default class App extends Component {
         return prodBlocks;
     }
 
-    getParentByClass = (el, targetParentClass) => {
-        let currentParent = el.parentElement;
-        while (!currentParent.classList.contains(targetParentClass)) {
-            if (currentParent === document.body) {
-                return false;
-            }
-            currentParent = currentParent.parentElement;
-        }
-        return currentParent;
-    }
-    getParentByDataAttr = (el, dataAttrName, dataAttrValue = null) => {
-        let currentParent = el.parentElement;
-        let found = false;
-        while (!found) {
-            if (currentParent === document.body) {
-                return false;
-            }
-            if(currentParent.dataset[dataAttrName]) {
-                if(dataAttrValue) {
-                    if(dataAttrValue === currentParent.dataset[dataAttrName]) {
-                        found = true;
-                        continue;
-                    }
-                } else {
-                    found = true;
-                    continue;
-                }
-            }
-            currentParent = currentParent.parentElement;
-        }
-        return currentParent;
-    }
-
     inputHandler = (e) => {
         let targetInput = e.currentTarget;
+        targetInput.style.minHeight = "";
+        targetInput.style.minHeight = targetInput.scrollHeight + "px";
         targetInput.style.borderColor = "#555";
         let key = this.getParentByClass(targetInput, "key_container").querySelector("span.key").innerText;
         let val = targetInput.value;
+        console.log(val);
         let inputClasses = targetInput.classList;
         let newDB = this.state.DB;
         if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
@@ -249,38 +250,16 @@ export default class App extends Component {
         });
     }
 
-    resizeTextarea = (e) => {
-        // При изменении содержания полей ввода меняется их высота. Пока не удалять.
-        e.currentTarget.style.minHeight = "";
-        e.currentTarget.style.minHeight = e.currentTarget.scrollHeight + "px";
-    }
-
-    addInputHandlers = () => {
-        let inputs = document.querySelectorAll(".input_panel input, .input_panel textarea");
-        inputs.forEach((input, index, listObj) => {
-            input.removeEventListener("change", this.inputHandler);
-            input.addEventListener("change", this.inputHandler);
-        });
-        
-        let textareas = document.querySelectorAll(".input_panel textarea");
-        textareas.forEach((textarea, index, listObj) => {
-            textarea.removeEventListener("input", this.resizeTextarea);
-            textarea.addEventListener("input", this.resizeTextarea);
-        });
-    }
-    
-
     componentDidMount() {
-        this.addInputHandlers();
+        window.addEventListener("beforeunload", e => {
+            e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
+        });
         this.autosave();
-    }
-    componentDidUpdate() {
-        this.addInputHandlers();
     }
 
     // Ajax-запросы
-    ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    // ajaxPath = "http://dbeditor/build/";
+    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -434,7 +413,7 @@ export default class App extends Component {
                 </div>
                 <div className="editor_block">
                     <div className="editor_block-col">
-                        <InputBlock itemType="category" DB={this.state.DB} />
+                        <InputBlock itemType="category" DB={this.state.DB} inputHandler={this.inputHandler} />
                     </div>
                     <div className="category_content_wrap">
                         {this.displayCategoryContent()}
