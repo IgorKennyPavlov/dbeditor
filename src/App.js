@@ -168,7 +168,7 @@ export default class App extends Component {
                     <span className="subcat_header">{subcat}</span>
                     <div className="subcat_wrap item_content">
                         <div className="editor_block-col col_left">
-                            <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} inputHandler={this.inputHandler} />
+                            <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
                         </div>
                         <div className="editor_block-col col_right">
                             {this.displayCards(subcatFolder[subcat].prods, subcat)}
@@ -184,23 +184,29 @@ export default class App extends Component {
 
     displayCards = (prodsFolder, subcat = null) => {
         let prodBlocks = [];
-        let productIndex = 0;
-        for (let product in prodsFolder) {
+        let prodIndex = 0;
+        for (let prod in prodsFolder) {
             prodBlocks.push(
-                <div key={productIndex} className="card minimized" id={product} data-item-role="db_item">
+                <div key={prodIndex} className="card minimized" id={prod} data-item-role="db_item">
                     <div className="ui_control_block" data-item-role="something">
                         <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
                         <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
-                    <span className="card_header">{product}</span>
+                    <span className="card_header">{prod}</span>
                     <div className="item_content">
-                        <InputBlock itemType="card" DB={this.state.DB} inputHandler={this.inputHandler} product={product} subcat={subcat} />
+                        <InputBlock itemType="card" DB={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} prod={prod} subcat={subcat} />
                     </div>
                 </div>
             );
-            productIndex++;
+            prodIndex++;
         }
         return prodBlocks;
+    }
+
+    adjustInputField = (e) => {
+        let targetInput = e.currentTarget;
+        targetInput.style.minHeight = "";
+        targetInput.style.minHeight = targetInput.scrollHeight + "px";
     }
 
     inputHandler = (e) => {
@@ -210,7 +216,6 @@ export default class App extends Component {
         targetInput.style.borderColor = "#555";
         let key = this.getParentByClass(targetInput, "key_container").querySelector("span.key").innerText;
         let val = targetInput.value;
-        console.log(val);
         let inputClasses = targetInput.classList;
         let newDB = this.state.DB;
         if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
@@ -258,8 +263,8 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    ajaxPath = "http://dbeditor/build/";
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -413,7 +418,7 @@ export default class App extends Component {
                 </div>
                 <div className="editor_block">
                     <div className="editor_block-col">
-                        <InputBlock itemType="category" DB={this.state.DB} inputHandler={this.inputHandler} />
+                        <InputBlock itemType="category" DB={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
                     </div>
                     <div className="category_content_wrap">
                         {this.displayCategoryContent()}
