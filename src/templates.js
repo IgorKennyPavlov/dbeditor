@@ -2,7 +2,7 @@ export class SubcatTemplate {
     constructor() {
         this.title = "";
         this.link = "";
-        this.desc = "",
+        this.desc = "";
         this.prods = {};
     }
 }

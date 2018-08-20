@@ -23,6 +23,7 @@ input, textarea {
     display: flex;
     flex-direction: column;
 }
+
 /* Модальное окно загрузки */
 .modal_loading {
     position: fixed;
@@ -332,22 +333,31 @@ span.key {
 }
 
 /* Блок автосохранения */
-.autosave {
+.autosave_block {
     margin: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     font-size: 20px;
 }
-.autosave label {
+.autosave_block label {
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
 }
-.autosave input {
+.autosave_block input[type="checkbox"] {
     height: 20px;
     width: 20px;
     margin: 5px;
+    outline: none;
+}
+.autosave_block input[type="number"] {
+    width: 50px;
+    margin: 5px;
+    font-size: 18px;
+    outline: none;
 }
 
 /* Окно с ответом сервера */

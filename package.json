@@ -2,7 +2,7 @@
   "name": "sj-db-editor",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://victr85.beget.tech/dbeditor",
+  "homepage": "http://dbeditor/build",
   "dependencies": {
     "npm": "^6.3.0",
     "react": "^16.4.1",

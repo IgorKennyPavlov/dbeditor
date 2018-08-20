@@ -9,6 +9,7 @@ export default class App extends Component {
         super(props);
         this.state = {
             autosaveIntervalID: null,
+            autosaveInterval: 5,
             currentDBFileURL : null,
             DB: {
                 "title": "",
@@ -111,24 +112,27 @@ export default class App extends Component {
 
     deleteItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
-        let newDB = this.state.DB;
-        if (targetEl.classList.contains("subcat")) {
-            delete newDB.subcats[targetEl.id];
-            if (Object.keys(newDB.subcats).length === 0 && newDB.subcats.constructor === Object) {
-                delete newDB.subcats;
-                newDB.prods = {};
+        let isConfirmed = window.confirm(`Вы уверены, что хотите удалить элемент ${targetEl.id}? Несохранённые изменения будут потеряны.`);
+        if(isConfirmed) {
+            let newDB = this.state.DB;
+            if (targetEl.classList.contains("subcat")) {
+                delete newDB.subcats[targetEl.id];
+                if (Object.keys(newDB.subcats).length === 0 && newDB.subcats.constructor === Object) {
+                    delete newDB.subcats;
+                    newDB.prods = {};
+                }
+            } else if (targetEl.classList.contains("card")) {
+                if (newDB.hasOwnProperty("subcats")) {
+                    let targetSubcat = this.getParentByClass(targetEl, "subcat").id;
+                    delete newDB.subcats[targetSubcat].prods[targetEl.id];
+                } else {
+                    delete newDB.prods[targetEl.id];
+                }
             }
-        } else if (targetEl.classList.contains("card")) {
-            if (newDB.hasOwnProperty("subcats")) {
-                let targetSubcat = this.getParentByClass(targetEl, "subcat").id;
-                delete newDB.subcats[targetSubcat].prods[targetEl.id];
-            } else {
-                delete newDB.prods[targetEl.id];
-            }
+            this.setState({
+                DB: newDB
+            });
         }
-        this.setState({
-            DB: newDB
-        });
     }
 
     displayCategoryContent = () => {
@@ -203,16 +207,16 @@ export default class App extends Component {
         return prodBlocks;
     }
 
-    adjustInputField = (e) => {
-        let targetInput = e.currentTarget;
-        targetInput.style.minHeight = "";
-        targetInput.style.minHeight = targetInput.scrollHeight + "px";
+    adjustInputField = (el) => {
+        if(el.scrollHeight) {
+            el.style.height = "";
+            el.style.height = el.scrollHeight + "px";
+        }
     }
 
     inputHandler = (e) => {
         let targetInput = e.currentTarget;
-        targetInput.style.minHeight = "";
-        targetInput.style.minHeight = targetInput.scrollHeight + "px";
+        this.adjustInputField(targetInput);
         targetInput.style.borderColor = "#555";
         let key = this.getParentByClass(targetInput, "key_container").querySelector("span.key").innerText;
         let val = targetInput.value;
@@ -223,7 +227,6 @@ export default class App extends Component {
                 val = JSON.parse(val);
             } catch(e) {
                 targetInput.style.borderColor = "#f00";
-                alert(`В поле допущена ошибка. Проверьте синтаксис.`);
             }
         }
         if (inputClasses.contains("category_input")) {
@@ -255,16 +258,9 @@ export default class App extends Component {
         });
     }
 
-    componentDidMount() {
-        window.addEventListener("beforeunload", e => {
-            e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
-        });
-        this.autosave();
-    }
-
     // Ajax-запросы
-    ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    // ajaxPath = "http://dbeditor/build/";
+    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -296,8 +292,7 @@ export default class App extends Component {
                     if (xhr.status === 200 && xhr.responseText) {
                         alert("Получен положительный ответ.");
                         document.getElementById('server_reply').innerHTML = xhr.responseText;
-                        clearInterval(this.state.autosaveIntervalID);
-                        this.autosave();
+                        this.resetAutosave();
                         this.setState({
                             currentDBFileURL: xhr.responseText,
                         })
@@ -311,14 +306,16 @@ export default class App extends Component {
         }
         console.log("Отработала функция сохранения БД");
     }
-    autosave = () => {
-        let checked = document.getElementById("autosave_checkbox").checked;
-        if(checked) {
+    resetAutosave = () => {
+        let isChecked = document.getElementById("autosave_checkbox").checked;
+        if(this.state.autosaveIntervalID) {
+            clearInterval(this.state.autosaveIntervalID);
+        }
+        if(isChecked) {
             this.setState({
-                autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), 300000)
+                autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), this.state.autosaveInterval*60*1000)
             });
         } else {
-            clearInterval(this.state.autosaveIntervalID);
             this.setState({
                 autosaveIntervalID: null
             });
@@ -349,6 +346,7 @@ export default class App extends Component {
                             newDB = xhr.responseText;
                             newDB = JSON.parse(unescape(newDB));
                             this.setState({
+                                currentDBFileURL: db_url,
                                 DB: newDB
                             });
                         } else {
@@ -404,6 +402,26 @@ export default class App extends Component {
         console.log("Отработала функция создания страниц");
     }
 
+    componentDidMount() {
+        window.addEventListener("beforeunload", e => {
+            e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
+        });
+        window.addEventListener("keydown", e => {
+            if(e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() == "s") {
+                e.preventDefault();
+                this.ajaxSaveDB();
+            }
+        });
+        this.resetAutosave();
+    }
+
+    componentDidUpdate() {
+        let textareas = document.querySelectorAll("textarea");
+        for(let textarea of textareas) {
+            this.adjustInputField(textarea);
+        }
+    }
+
     render() {
         return (
             <div className="container">
@@ -429,8 +447,13 @@ export default class App extends Component {
                     <div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
                 </div>
-                <div className="autosave">
-                    <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.autosave} /> Автосохранение (5 мин. без сохранения)</label>
+                <div className="autosave_block">
+                    <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>
+                    <div>
+                        <span>Интервал: </span><input type="number" id="autosaveInterval" defaultValue={this.state.autosaveInterval} onBlur={e => this.setState({
+                            autosaveInterval: +(e.currentTarget.value)
+                        }, () => this.resetAutosave())} min="1" /><span> мин.</span>
+                    </div>
                 </div>
                 <div id="server_reply"></div>
             </div>
