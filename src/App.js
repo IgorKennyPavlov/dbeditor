@@ -113,7 +113,7 @@ export default class App extends Component {
         }
         this.setState({
             DB: newDB
-        }, console.log(this.state.DB));
+        });
     }
 
     minimizeItem = (e) => {
