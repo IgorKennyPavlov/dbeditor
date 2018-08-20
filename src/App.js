@@ -98,16 +98,31 @@ export default class App extends Component {
         });
     }
 
+    renameItem = (e) => {
+        let newDB = this.state.DB;
+        let DBItem = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
+        let oldItemTitle = DBItem.id;
+        let newItemTitle = e.currentTarget.innerText.toLowerCase().replace(/\s+/g, "_");
+        if(DBItem.classList.contains("subcat")) {
+            newDB.subcats[newItemTitle] = newDB.subcats[oldItemTitle];
+            delete newDB.subcats[oldItemTitle];
+        } else if (DBItem.classList.contains("card")) {
+            let subcat = this.getParentByClass("subcat").id;
+            newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
+            delete newDB.subcats[subcat].prods[oldItemTitle];
+        }
+        this.setState({
+            DB: newDB
+        }, console.log(this.state.DB));
+    }
+
     minimizeItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         targetEl.classList.toggle("minimized");
-        if(targetEl.classList.contains("card")) {
-            let textareas = targetEl.querySelectorAll("textarea");
-            textareas.forEach(textarea => {
-                textarea.style.minHeight = "";
-                textarea.style.minHeight = textarea.scrollHeight + "px";
-            });
-        }
+        let textareas = targetEl.querySelectorAll("textarea");
+        textareas.forEach(textarea => {
+            this.adjustInputField(textarea);
+        });
     }
 
     deleteItem = (e) => {
@@ -164,12 +179,12 @@ export default class App extends Component {
         let subcatIndex = 0;
         for (let subcat in subcatFolder) {
             subcatBlocks.push(
-                <div key={subcatIndex} className="subcat minimized" id={subcat} data-item-role="db_item" >
+                <div key={subcatIndex} className="subcat minimized" id={subcat} data-item-role="db_item">
                     <div className="ui_control_block">
                         <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
                         <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
-                    <span className="subcat_header">{subcat}</span>
+                    <span className="subcat_header" contentEditable="true" onBlur={this.renameItem}>{subcat}</span>
                     <div className="subcat_wrap item_content">
                         <div className="editor_block-col col_left">
                             <InputBlock itemType="subcat" subcat={subcat} DB={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
@@ -196,7 +211,7 @@ export default class App extends Component {
                         <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
                         <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
-                    <span className="card_header">{prod}</span>
+                    <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
                     <div className="item_content">
                         <InputBlock itemType="card" DB={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} prod={prod} subcat={subcat} />
                     </div>
