@@ -49,9 +49,6 @@ function create_category_page($path) {
         </div>
         <?php include_once  $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
         <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
-        <script>
-            $("input.express_submit").on("click", (e) => postData(e, "/formExpressScript.php"));
-        </script>
     </body>
     </html>';
     return $content;
@@ -90,11 +87,6 @@ function create_prod_card($path) {
         </div>
         <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
         <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
-        <script>
-            $("input.express_submit").on("click", (e) => postData(e, "/formExpressScript.php"));
-            $("input.full-form_submit").on("click", (e) => postData(e, "/formFullOrderScript.php"));
-            $("input.oneclick-form_submit").on("click", (e) => {if($(\'#oneclick_tel\').val()) {postData(e, "/formOneClickScript.php")}});
-        </script>
     </body>
     </html>';
     return $content;

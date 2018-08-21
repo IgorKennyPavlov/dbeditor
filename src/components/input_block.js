@@ -5,6 +5,10 @@ export default class InputBlock extends React.Component {
     jsonDecode = (val) => {
         if(val === Object(val)) {
             val = JSON.stringify(val, null, 2);
+            val = val.replace(/(\{|\[)\n?|\n?(\}|\])/gm, "");
+            val = val.replace(/^( |\t)*"/gm, "");
+            val = val.replace(/": "/gm, "\t");
+            val = val.replace(/",?$/gm, "");
         }
         return val
     }
@@ -105,21 +109,21 @@ export default class InputBlock extends React.Component {
                         </label>
                         <label className="key_container">
                             <span className="key">attributes</span>
-                            <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.attributes ? this.jsonDecode(prod.attributes) : ""}/>
+                            <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.attributes ? this.jsonDecode(prod.attributes) : ""} data-input-type="array_a" />
                         </label>
                         <label className="key_container">
                             <span className="key">images</span>
-                            <textarea className="card_input" placeholder="ссылки на изображения (массив)" onChange={this.props.inputHandler} value={prod.images ? this.jsonDecode(prod.images) : ""}/>
+                            <textarea className="card_input" placeholder="ссылки на изображения (массив)" onChange={this.props.inputHandler} value={prod.images ? this.jsonDecode(prod.images) : ""} data-input-type="array_i" />
                         </label>
                         <label className="key_container">
                             <span className="key">primaryProps</span>
-                            <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.primaryProps ? this.jsonDecode(prod.primaryProps) : ""} />
+                            <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.primaryProps ? this.jsonDecode(prod.primaryProps) : ""} data-input-type="array_a" />
                         </label>
                         <div className="infoBlock" data-subfolder="infoBlock">
                             <p>infoBlock</p>
                             <label className="key_container">
                                 <span className="key">props</span>
-                                <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.infoBlock.props ? this.jsonDecode(prod.infoBlock.props) : ""} />
+                                <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.infoBlock.props ? this.jsonDecode(prod.infoBlock.props) : ""} data-input-type="array_a" />
                             </label>
                             <label className="key_container">
                                 <span className="key">desc</span>
@@ -127,7 +131,7 @@ export default class InputBlock extends React.Component {
                             </label>
                             <label className="key_container">
                                 <span className="key">advantages</span>
-                                <textarea className="card_input" placeholder="описание преимуществ товара для инфоблока (массив)" onChange={this.props.inputHandler} value={prod.infoBlock.advantages ? this.jsonDecode(prod.infoBlock.advantages) : ""} />
+                                <textarea className="card_input" placeholder="описание преимуществ товара для инфоблока (массив)" onChange={this.props.inputHandler} value={prod.infoBlock.advantages ? this.jsonDecode(prod.infoBlock.advantages) : ""} data-input-type="array_i" />
                             </label>
                             <label className="key_container">
                                 <span className="key">appAreas</span>

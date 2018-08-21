@@ -234,10 +234,22 @@ export default class App extends Component {
         this.adjustInputField(targetInput);
         targetInput.style.borderColor = "#555";
         let key = this.getParentByClass(targetInput, "key_container").querySelector("span.key").innerText;
+        let type = targetInput.dataset.inputType;
         let val = targetInput.value;
         let inputClasses = targetInput.classList;
         let newDB = this.state.DB;
-        if(key === "images" || key === "advantages"|| key === "attributes"|| key === "primaryProps"|| key === "props") {
+        if(type) {
+            val = val.replace(/$/gm, "\"");
+            val = val.replace(/"$\n/gm, "\",\n");
+            val = val.replace(/^/gm, "\"");
+            if(type === "array_a") {
+                val = val.replace(/\t/gm, "\": \"");
+                val = val.replace(/({"[^"]*"})|(^"[^"]*",?$)/gm, "\"ключ\": \"значение\"");
+                val = val.replace(/"$\n/gm, "\",\n");
+                val = "{"+val+"}";
+            } else {
+                val = "["+val+"]";
+            }
             try {
                 val = JSON.parse(val);
             } catch(e) {
@@ -274,8 +286,8 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    ajaxPath = "http://dbeditor/build/";
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -422,7 +434,7 @@ export default class App extends Component {
             e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
         });
         window.addEventListener("keydown", e => {
-            if(e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() == "s") {
+            if(e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === "s") {
                 e.preventDefault();
                 this.ajaxSaveDB();
             }

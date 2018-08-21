@@ -179,10 +179,6 @@ input, textarea {
     text-align: center;
     font-weight: bold;
 }
-.editor_block-col {
-    display: grid;
-    align-items: start;
-}
 .col_left {
     width: 35%;
 }
