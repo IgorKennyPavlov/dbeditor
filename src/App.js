@@ -239,6 +239,8 @@ export default class App extends Component {
         let inputClasses = targetInput.classList;
         let newDB = this.state.DB;
         if(type) {
+            val = val.replace(/([^\\])"/gm, "$1\\\"");
+            val = val.replace(/\\(?!")/gm, "");
             val = val.replace(/$/gm, "\"");
             val = val.replace(/"$\n/gm, "\",\n");
             val = val.replace(/^/gm, "\"");
@@ -286,11 +288,12 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    // ajaxPath = "http://dbeditor/build/";
+    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
+    createPagesAllScript = "db_create_pages_all.php";
 
     ajaxSaveDB = (e, autosave = false) => {
         let placeholder = "db_name-db.php";
@@ -429,6 +432,45 @@ export default class App extends Component {
         console.log("Отработала функция создания страниц");
     }
 
+    ajaxCreatePagesAll = () => {
+        let placeholder = "";
+        // if(this.state.currentDBFileURL) {
+        //     placeholder = this.state.currentDBFileURL;
+        // }
+        let db_url = prompt("Введите путь к директории", placeholder);
+        if(db_url) {
+            document.getElementById("modal_loading").classList.remove("hidden");
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', this.ajaxPath + this.createPagesAllScript, true);
+            xhr.onload = () => {
+                console.log("Запрос на создание страниц отправлен успешно");
+            };
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    alert("Запрос выполнен");
+                    document.getElementById("modal_loading").classList.add("hidden");
+                    if (xhr.status === 200) {
+                        alert("Получен положительный ответ.");
+                        if(xhr.responseText) {
+                            document.getElementById('server_reply').innerHTML = xhr.responseText;
+                        } else {
+                            document.getElementById('server_reply').innerHTML = "Сервер не вернул данные";
+                        }
+                    } else {
+                        console.log("Ошибка при создании страницы. Код статуса: "+xhr.status);
+                    }
+                } else {
+                    console.log("Код состояния готовности: "+xhr.readyState);
+                }
+            };
+            xhr.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
+            xhr.send(db_url);
+        } else if (db_url !== null) {
+            alert("Необходимо ввести путь к директории.");
+        }
+        console.log("Отработала функция создания всех страниц");
+    }
+
     componentDidMount() {
         window.addEventListener("beforeunload", e => {
             e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
@@ -473,6 +515,7 @@ export default class App extends Component {
                     <div className="btn create_db" onClick={this.ajaxSaveDB}><span className="btn_icon plus">+</span><span className="btn_title">Сохранить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
+                    <div className="btn create_db" onClick={this.ajaxCreatePagesAll}><span className="btn_icon plus">+</span><span className="btn_title">Создать ВСЕ страницы</span></div>
                 </div>
                 <div className="autosave_block">
                     <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>

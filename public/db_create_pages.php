@@ -1,6 +1,7 @@
 <?php
 $url = file_get_contents('php://input');
 $server_reply = "";
+$server_reply .= "Получена ссылка: ".$url."<br>";
 // Составляется маршрут к расположению данных в БД
 function create_path_array($subcat = null, $prod = null) {
     $path_components = '"category" => "'.$GLOBALS['DB_filename'].'"';
@@ -25,8 +26,8 @@ function create_category_page($path) {
         <?php
             include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
             $content = new MainContent('.$path.');
-            $content->create_meta_tags();
             include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
+            $content->create_meta_tags();
         ?>
     </head>
     <body id="body-category">
@@ -63,10 +64,10 @@ function create_prod_card($path) {
         <?php
             include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
             $content = new MainContent('.$path.');
+            include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
             $content->create_meta_tags();
         ?>
         <link href="https://fonts.googleapis.com/css?family=Cuprum:400,700&amp;subset=cyrillic" rel="stylesheet">
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php" ?>
     </head>
     <body>
         <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/form.php" ?>
@@ -167,6 +168,7 @@ if ($url) {
                     $path = $DB_folder.$new_prod_folder;
                     if(!is_dir($path)) {
                         if (!mkdir($path, 0777, true)) {
+                            echo "Не удалось создать папки для товара $prod_key";
                             die("Не удалось создать папки для товара $prod_key");
                         }
                     }
