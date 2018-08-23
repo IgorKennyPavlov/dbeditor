@@ -113,9 +113,14 @@ export default class App extends Component {
                 newDB.subcats[newItemTitle] = newDB.subcats[oldItemTitle];
                 delete newDB.subcats[oldItemTitle];
             } else if (DBItem.classList.contains("card")) {
-                let subcat = this.getParentByClass("subcat").id;
-                newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
-                delete newDB.subcats[subcat].prods[oldItemTitle];
+                let subcat = this.getParentByClass(e.currentTarget, "subcat").id;
+                if(subcat) {
+                    newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
+                    delete newDB.subcats[subcat].prods[oldItemTitle];
+                } else {
+                    newDB.prods[newItemTitle] = newDB.prods[oldItemTitle];
+                    delete newDB.prods[oldItemTitle];
+                }
             }
             this.setState({
                 DB: newDB
