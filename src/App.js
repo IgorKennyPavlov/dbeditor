@@ -102,18 +102,25 @@ export default class App extends Component {
         let newDB = this.state.DB;
         let DBItem = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let oldItemTitle = DBItem.id;
-        let newItemTitle = e.currentTarget.innerText.toLowerCase().replace(/\s+/g, "_");
-        if(DBItem.classList.contains("subcat")) {
-            newDB.subcats[newItemTitle] = newDB.subcats[oldItemTitle];
-            delete newDB.subcats[oldItemTitle];
-        } else if (DBItem.classList.contains("card")) {
-            let subcat = this.getParentByClass("subcat").id;
-            newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
-            delete newDB.subcats[subcat].prods[oldItemTitle];
+        let newItemTitle;
+        if(e.currentTarget.innerText) {
+            newItemTitle = e.currentTarget.innerText = e.currentTarget.innerText.toLowerCase().replace(/\s+/g, "_");
+        } else {
+            newItemTitle = e.currentTarget.innerText = oldItemTitle;
         }
-        this.setState({
-            DB: newDB
-        });
+        if(newItemTitle !== oldItemTitle) {
+            if(DBItem.classList.contains("subcat")) {
+                newDB.subcats[newItemTitle] = newDB.subcats[oldItemTitle];
+                delete newDB.subcats[oldItemTitle];
+            } else if (DBItem.classList.contains("card")) {
+                let subcat = this.getParentByClass("subcat").id;
+                newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
+                delete newDB.subcats[subcat].prods[oldItemTitle];
+            }
+            this.setState({
+                DB: newDB
+            });
+        }
     }
 
     minimizeItem = (e) => {
@@ -288,8 +295,8 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    ajaxPath = "http://dbeditor/build/";
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";
@@ -434,9 +441,6 @@ export default class App extends Component {
 
     ajaxCreatePagesAll = () => {
         let placeholder = "";
-        // if(this.state.currentDBFileURL) {
-        //     placeholder = this.state.currentDBFileURL;
-        // }
         let db_url = prompt("Введите путь к директории", placeholder);
         if(db_url) {
             document.getElementById("modal_loading").classList.remove("hidden");
@@ -515,7 +519,7 @@ export default class App extends Component {
                     <div className="btn create_db" onClick={this.ajaxSaveDB}><span className="btn_icon plus">+</span><span className="btn_title">Сохранить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
                     <div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
-                    <div className="btn create_db" onClick={this.ajaxCreatePagesAll}><span className="btn_icon plus">+</span><span className="btn_title">Создать ВСЕ страницы</span></div>
+                    <div className="btn create_db hidden" onClick={this.ajaxCreatePagesAll}><span className="btn_icon plus">+</span><span className="btn_title">Создать ВСЕ страницы</span></div>
                 </div>
                 <div className="autosave_block">
                     <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>
