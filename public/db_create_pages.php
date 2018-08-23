@@ -168,7 +168,6 @@ if ($url) {
                     $path = $DB_folder.$new_prod_folder;
                     if(!is_dir($path)) {
                         if (!mkdir($path, 0777, true)) {
-                            echo "Не удалось создать папки для товара $prod_key";
                             die("Не удалось создать папки для товара $prod_key");
                         }
                     }

@@ -3,12 +3,11 @@ $dir_url = file_get_contents('php://input');
 $server_reply = "";
 if(is_dir($dir_url)) {
     if($dir = opendir($dir_url)) {
-        $server_reply .= "Статус curl: ".(function_exists('curl_version') ? 'Enabled' : 'Disabled')."<br>";
+        // $server_reply .= "Статус curl: ".(function_exists('curl_version') ? 'Enabled' : 'Disabled')."<br>";
         while (($file = readdir($dir)) !== false) {
             if ($file != "." && $file != "..") {
                 $url = "$dir_url/$file";
-                $server_reply .= "Передан урл: $url<br>";
-                // $server_reply .= exec("php db_create_pages.php ".$url)."<br>";
+                // $server_reply .= "Передан урл: $url<br>";
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, "http://dbeditor/build/db_create_pages.php");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
