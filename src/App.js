@@ -23,6 +23,10 @@ export default class App extends Component {
         this.setState = this.setState.bind(this);
     }
 
+    // Настройки пути ajax
+    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    ajaxPath = "http://dbeditor/build/";
+
     getParentByClass = (el, targetParentClass) => {
         let currentParent = el.parentElement;
         while (!currentParent.classList.contains(targetParentClass)) {
@@ -300,8 +304,6 @@ export default class App extends Component {
     }
 
     // Ajax-запросы
-    ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    // ajaxPath = "http://dbeditor/build/";
     saveScript = "db_save.php";
     loadScript = "db_load.php";
     createPagesScript = "db_create_pages.php";

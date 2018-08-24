@@ -19,78 +19,71 @@ function create_path_array($subcat = null, $prod = null) {
 
 // Создаётся страница категории/подкатегории
 function create_category_page($path) {
-    $content =
-    '<!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <?php
-            include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
-            $content = new MainContent('.$path.');
-            include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
-            $content->create_meta_tags();
-        ?>
-    </head>
-    <body id="body-category">
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/formExpress.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/modal_success.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
-        <div class="background-wrapper">
-            <div id="section-product" class="container">
-                <?php $content->render(); ?>
-                <div class="product-slider">
-                    <h2 class="center slider-title">Популярные товары</h2>
-                    <?php
-                        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/carousel.php";
-                        include_once $_SERVER[\'DOCUMENT_ROOT\']."/popular_products/pp-work_stations.php";
-                        $carousel = new Carousel($carouselProds);
-                        $carousel->render();
-                    ?>
-                </div>
-            </div>
+$content =
+'<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <?php
+        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
+        $content = new MainContent('.$path.');
+        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
+        $content->create_meta_tags();
+    ?>
+</head>
+<body>
+    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
+    <div id="section-product" class="container">
+        <?php $content->render(); ?>
+        <div class="product-slider">
+            <h2 class="center slider-title">Популярные товары</h2>
+            <?php
+                include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/carousel.php";
+                include_once $_SERVER[\'DOCUMENT_ROOT\']."/popular_products/pp-work_stations.php";
+                $carousel = new Carousel($carouselProds);
+                $carousel->render();
+            ?>
         </div>
-        <?php include_once  $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
-    </body>
-    </html>';
-    return $content;
+    </div>
+    <?php include_once  $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
+    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
+</body>
+</html>';
+return $content;
 }
 
 // Создаётся страница карточки товара
 function create_prod_card($path) {
-    $content =
-    '<!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <?php
-            include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
-            $content = new MainContent('.$path.');
-            include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
-            $content->create_meta_tags();
-        ?>
-        <link href="https://fonts.googleapis.com/css?family=Cuprum:400,700&amp;subset=cyrillic" rel="stylesheet">
-    </head>
-    <body>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/form.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/formExpress.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/modal_success.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
-        <div id="section-product" class="container">
+$content =
+'<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <?php
+        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
+        $content = new MainContent('.$path.');
+        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
+        $content->create_meta_tags();
+    ?>
+    <link href="https://fonts.googleapis.com/css?family=Cuprum:400,700&amp;subset=cyrillic" rel="stylesheet">
+</head>
+<body class="blue">
+    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
+    <div id="section-product" class="container">
         <?php $content->render(); ?>
-            <div class="product-slider">
-                <h2 class="center slider-title">Популярные товары</h2>
-                <?php
-                    include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/carousel.php";
-                    include_once $_SERVER[\'DOCUMENT_ROOT\']."/popular_products/pp-work_stations.php";
-                    $carousel = new Carousel($carouselProds);
-                    $carousel->render();
-                ?>
-            </div>
+        <div class="product-slider">
+            <h2 class="center slider-title">Популярные товары</h2>
+            <?php
+                include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/carousel.php";
+                include_once $_SERVER[\'DOCUMENT_ROOT\']."/popular_products/pp-work_stations.php";
+                $carousel = new Carousel($carouselProds);
+                $carousel->render();
+            ?>
         </div>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
-        <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
-    </body>
-    </html>';
-    return $content;
+    </div>
+    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
+    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
+</body>
+</html>';
+return $content;
 }
 
 if ($url) {
