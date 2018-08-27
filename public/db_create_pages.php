@@ -17,23 +17,26 @@ function create_path_array($subcat = null, $prod = null) {
     return 'array('.$path_components.')';
 }
 
-// Создаётся страница категории/подкатегории
-function create_category_page($path) {
+// Создаётся страница
+function create_page($path) {
 $content =
 '<!DOCTYPE html>
 <html lang="ru">
 <head>
     <?php
+        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
         include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
         $content = new MainContent('.$path.');
-        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
         $content->create_meta_tags();
+        $content->get_additional_fonts();
     ?>
 </head>
 <body>
     <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
-    <div id="section-product" class="container">
+    <main class="container">
         <?php $content->render(); ?>
+    </main>
+    <div class="container">
         <div class="product-slider">
             <h2 class="center slider-title">Популярные товары</h2>
             <?php
@@ -44,42 +47,6 @@ $content =
             ?>
         </div>
     </div>
-    <?php include_once  $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
-    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
-</body>
-</html>';
-return $content;
-}
-
-// Создаётся страница карточки товара
-function create_prod_card($path) {
-$content =
-'<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <?php
-        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/main-content.php";
-        $content = new MainContent('.$path.');
-        include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/head-content.php";
-        $content->create_meta_tags();
-    ?>
-    <link href="https://fonts.googleapis.com/css?family=Cuprum:400,700&amp;subset=cyrillic" rel="stylesheet">
-</head>
-<body class="blue">
-    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/header.php" ?>
-    <div id="section-product" class="container">
-        <?php $content->render(); ?>
-        <div class="product-slider">
-            <h2 class="center slider-title">Популярные товары</h2>
-            <?php
-                include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/carousel.php";
-                include_once $_SERVER[\'DOCUMENT_ROOT\']."/popular_products/pp-work_stations.php";
-                $carousel = new Carousel($carouselProds);
-                $carousel->render();
-            ?>
-        </div>
-    </div>
-    <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/pre-footer.php" ?>
     <?php include_once $_SERVER[\'DOCUMENT_ROOT\']."/php-components/footer.php" ?>
 </body>
 </html>';
@@ -98,7 +65,7 @@ if ($url) {
         $DB_folder = "new_categories/".$DB_subfolder[2];
         preg_match('/^[^-]*/', $DB_subfolder[2], $get_DB_filename);
         $DB_filename = $get_DB_filename[0];
-        $new_category_text = create_category_page(create_path_array());
+        $new_category_text = create_page(create_path_array());
         preg_match('/^(.*)\/(.*)$/', $db['link'], $new_category_link);
         $new_category_folder = $new_category_link[1];
         $new_category_name = $new_category_link[2];
@@ -114,7 +81,7 @@ if ($url) {
         $counter_categories++;
         if(isset($db["subcats"])) {
             foreach($db["subcats"] as $subcat_key => $subcat) {
-                $new_subcat_text = create_category_page(create_path_array($subcat_key));
+                $new_subcat_text = create_page(create_path_array($subcat_key));
                 preg_match('/^(.*)\/(.*)$/', $subcat['link'], $new_subcat_link);
                 $new_subcat_folder = $new_subcat_link[1];
                 $new_subcat_name = $new_subcat_link[2];
@@ -130,7 +97,7 @@ if ($url) {
                 $counter_subcats++;
                 if(isset($subcat["prods"]) && count($subcat["prods"]) > 0) {
                     foreach($subcat["prods"] as $prod_key => $prod) {
-                        $new_card_text = create_prod_card(create_path_array($subcat_key, $prod_key));
+                        $new_card_text = create_page(create_path_array($subcat_key, $prod_key));
                         preg_match('/^(.*)\/(.*)$/', $prod['link'], $new_prod_link);
                         $new_prod_folder = $new_prod_link[1];
                         $new_prod_name = $new_prod_link[2];
@@ -154,7 +121,7 @@ if ($url) {
         } else {
             if(isset($db['prods']) && count($db['prods']) > 0) {
                 foreach($db["prods"] as $prod_key => $prod) {
-                    $new_card_text = create_prod_card(create_path_array(null, $prod_key));
+                    $new_card_text = create_page(create_path_array(null, $prod_key));
                     preg_match('/^(.*)\/(.*)$/', $prod['link'], $new_prod_link);
                     $new_prod_folder = $new_prod_link[1];
                     $new_prod_name = $new_prod_link[2];
