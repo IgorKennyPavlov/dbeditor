@@ -113,7 +113,7 @@ export default class InputBlock extends React.Component {
                         </label>
                         <label className="key_container">
                             <span className="key">carouselLink</span>
-                            <textarea className="category_input" placeholder="ссылка на БД товаров для карусели" onChange={this.props.inputHandler} value={DB.subcats[subcat].carouselLink ? DB.subcats[subcat].carouselLink : ""} />
+                            <textarea className="category_input" placeholder="ссылка на БД товаров для карусели" onChange={this.props.inputHandler} value={prod.carouselLink ? prod.carouselLink : ""} />
                         </label>
                         <label className="key_container">
                             <span className="key">prodClass</span>
