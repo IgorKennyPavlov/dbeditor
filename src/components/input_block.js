@@ -29,16 +29,20 @@ export default class InputBlock extends React.Component {
                             <input type="text" className="category_input" placeholder="название товара (ед.ч.)" onChange={this.props.inputHandler} value={DB.cardh1title ? DB.cardh1title : ""} />
                         </label>
                         <label className="key_container">
-                            <span className="key">desc</span>
-                            <textarea className="category_input" placeholder="описание категории" onChange={this.props.inputHandler} value={DB.desc ? DB.desc : ""} />
-                        </label>
-                        <label className="key_container">
                             <span className="key">link</span>
                             <textarea className="category_input" placeholder="ссылка на страницу категории" onChange={this.props.inputHandler} value={DB.link ? DB.link : ""} />
                         </label>
                         <label className="key_container">
                             <span className="key">priceList</span>
                             <textarea className="category_input" placeholder="ссылка на прайс-лист" onChange={this.props.inputHandler} value={DB.priceList ? DB.priceList : ""} />
+                        </label>
+                        <label className="key_container">
+                            <span className="key">carouselLink</span>
+                            <textarea className="category_input" placeholder="ссылка на БД товаров для карусели" onChange={this.props.inputHandler} value={DB.carouselLink ? DB.carouselLink : ""} />
+                        </label>
+                        <label className="key_container">
+                            <span className="key">desc</span>
+                            <textarea className="category_input" placeholder="описание категории" onChange={this.props.inputHandler} value={DB.desc ? DB.desc : ""} />
                         </label>
                     </div>;
                 break;
@@ -51,12 +55,16 @@ export default class InputBlock extends React.Component {
                             <input type="text" className="subcat_input" placeholder="название подкатегории" onChange={this.props.inputHandler} value={DB.subcats[subcat].title ? DB.subcats[subcat].title : ""} />
                         </label>
                         <label className="key_container">
-                            <span className="key">desc</span>
-                            <textarea className="subcat_input" placeholder="описание подкатегории" onChange={this.props.inputHandler} value={DB.subcats[subcat].desc ? DB.subcats[subcat].desc : ""} />
-                        </label>
-                        <label className="key_container">
                             <span className="key">link</span>
                             <textarea className="subcat_input" placeholder="ссылка на страницу подкатегории" onChange={this.props.inputHandler} value={DB.subcats[subcat].link ? DB.subcats[subcat].link : ""} />
+                        </label>
+                        <label className="key_container">
+                            <span className="key">carouselLink</span>
+                            <textarea className="category_input" placeholder="ссылка на БД товаров для карусели" onChange={this.props.inputHandler} value={DB.subcats[subcat].carouselLink ? DB.subcats[subcat].carouselLink : ""} />
+                        </label>
+                        <label className="key_container">
+                            <span className="key">desc</span>
+                            <textarea className="subcat_input" placeholder="описание подкатегории" onChange={this.props.inputHandler} value={DB.subcats[subcat].desc ? DB.subcats[subcat].desc : ""} />
                         </label>
                     </div>;
                 break;
@@ -104,6 +112,10 @@ export default class InputBlock extends React.Component {
                             <textarea className="card_input" placeholder="ссылка на страницу товара" onChange={this.props.inputHandler} value={prod.link ? prod.link : prod.link} />
                         </label>
                         <label className="key_container">
+                            <span className="key">carouselLink</span>
+                            <textarea className="category_input" placeholder="ссылка на БД товаров для карусели" onChange={this.props.inputHandler} value={DB.subcats[subcat].carouselLink ? DB.subcats[subcat].carouselLink : ""} />
+                        </label>
+                        <label className="key_container">
                             <span className="key">prodClass</span>
                             <input type="text" className="card_input" placeholder="rec|new|hit|sale|disc" onChange={this.props.inputHandler} value={prod.prodClass ? prod.prodClass : prod.prodClass} />
                         </label>
@@ -119,6 +131,7 @@ export default class InputBlock extends React.Component {
                             <span className="key">primaryProps</span>
                             <textarea className="card_input" placeholder="ассоц. массив" onChange={this.props.inputHandler} value={prod.primaryProps ? this.jsonDecode(prod.primaryProps) : ""} data-input-type="array_a" />
                         </label>
+
                         <div className="infoBlock" data-subfolder="infoBlock">
                             <p>infoBlock</p>
                             <label className="key_container">

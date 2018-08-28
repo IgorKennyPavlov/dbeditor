@@ -17,6 +17,7 @@ export default class App extends Component {
                 "link": "",
                 "desc": "",
                 "priceList": "",
+                "carouselLink": "",
                 "prods": {}
             }
         };
@@ -24,8 +25,8 @@ export default class App extends Component {
     }
 
     // Настройки пути ajax
-    // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-    ajaxPath = "http://dbeditor/build/";
+    ajaxPath = "http://victr85.beget.tech/dbeditor/";
+    // ajaxPath = "http://dbeditor/build/";
 
     getParentByClass = (el, targetParentClass) => {
         let currentParent = el.parentElement;
@@ -102,7 +103,7 @@ export default class App extends Component {
         });
     }
 
-    renameItem = (e) => {
+    renameItem = e => {
         let newDB = this.state.DB;
         let DBItem = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let oldItemTitle = DBItem.id;
@@ -132,7 +133,7 @@ export default class App extends Component {
         }
     }
 
-    minimizeItem = (e) => {
+    minimizeItem = e => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         targetEl.classList.toggle("minimized");
         let textareas = targetEl.querySelectorAll("textarea");
@@ -141,7 +142,7 @@ export default class App extends Component {
         });
     }
 
-    deleteItem = (e) => {
+    deleteItem = e => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let isConfirmed = window.confirm(`Вы уверены, что хотите удалить элемент ${targetEl.id}? Несохранённые изменения будут потеряны.`);
         if(isConfirmed) {
@@ -197,8 +198,8 @@ export default class App extends Component {
             subcatBlocks.push(
                 <div key={subcatIndex} className="subcat minimized" id={subcat} data-item-role="db_item">
                     <div className="ui_control_block">
-                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
-                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
+                        <span className="ui_btn minimize_item" onClick={e => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={e => this.deleteItem(e)}>&times;</span>
                     </div>
                     <span className="subcat_header" contentEditable="true" onBlur={this.renameItem}>{subcat}</span>
                     <div className="subcat_wrap item_content">
@@ -224,8 +225,8 @@ export default class App extends Component {
             prodBlocks.push(
                 <div key={prodIndex} className="card minimized" id={prod} data-item-role="db_item">
                     <div className="ui_control_block" data-item-role="something">
-                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
-                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
+                        <span className="ui_btn minimize_item" onClick={e => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={e => this.deleteItem(e)}>&times;</span>
                     </div>
                     <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
                     <div className="item_content">
@@ -245,7 +246,7 @@ export default class App extends Component {
         }
     }
 
-    inputHandler = (e) => {
+    inputHandler = e => {
         let targetInput = e.currentTarget;
         this.adjustInputField(targetInput);
         targetInput.style.borderColor = "#555";
@@ -416,6 +417,7 @@ export default class App extends Component {
         if(db_url) {
             document.getElementById("modal_loading").classList.remove("hidden");
             let xhr = new XMLHttpRequest();
+            let data = JSON.stringify({"db_url": db_url, "no_subfolders": false});
             xhr.open('POST', this.ajaxPath + this.createPagesScript, true);
             xhr.onload = () => {
                 console.log("Запрос на создание страниц отправлен успешно");
@@ -438,8 +440,8 @@ export default class App extends Component {
                     console.log("Код состояния готовности: "+xhr.readyState);
                 }
             };
-            xhr.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
-            xhr.send(db_url);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            xhr.send(data);
         } else if (db_url !== null) {
             alert("Необходимо ввести путь к файлу.");
         }
@@ -447,11 +449,12 @@ export default class App extends Component {
     }
 
     ajaxCreatePagesAll = () => {
-        let placeholder = "";
-        let db_url = prompt("Введите путь к директории", placeholder);
+        let db_url = prompt("Введите путь к директории");
+        let no_subfolders = window.confirm("Сохранить в одну папку?");
         if(db_url) {
             document.getElementById("modal_loading").classList.remove("hidden");
             let xhr = new XMLHttpRequest();
+            let data = JSON.stringify({"db_url": db_url, "no_subfolders": no_subfolders});
             xhr.open('POST', this.ajaxPath + this.createPagesAllScript, true);
             xhr.onload = () => {
                 console.log("Запрос на создание страниц отправлен успешно");
@@ -474,8 +477,8 @@ export default class App extends Component {
                     console.log("Код состояния готовности: "+xhr.readyState);
                 }
             };
-            xhr.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
-            xhr.send(db_url);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            xhr.send(data);
         } else if (db_url !== null) {
             alert("Необходимо ввести путь к директории.");
         }

@@ -3,6 +3,7 @@ export class SubcatTemplate {
         this.title = "";
         this.link = "";
         this.desc = "";
+        this.carouselLink = "";
         this.prods = {};
     }
 }
@@ -12,6 +13,7 @@ export class CardTemplate {
         this.link = "";
         this.article = "";
         this.priceType = "";
+        this.carouselLink = "";
         this.prodClass = "";
         this.attributes = {};
         this.images = [];
