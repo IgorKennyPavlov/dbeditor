@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class InputBlock extends React.Component {
 
-    jsonDecode = (val) => {
+    jsonDecode = val => {
         if(val === Object(val)) {
             val = JSON.stringify(val, null, 2);
             val = val.replace(/(\{|\[)\n?|\n?(\}|\])/gm, "");

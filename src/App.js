@@ -103,7 +103,7 @@ export default class App extends Component {
         });
     }
 
-    renameItem = e => {
+    renameItem = (e) => {
         let newDB = this.state.DB;
         let DBItem = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let oldItemTitle = DBItem.id;
@@ -133,7 +133,7 @@ export default class App extends Component {
         }
     }
 
-    minimizeItem = e => {
+    minimizeItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         targetEl.classList.toggle("minimized");
         let textareas = targetEl.querySelectorAll("textarea");
@@ -142,7 +142,7 @@ export default class App extends Component {
         });
     }
 
-    deleteItem = e => {
+    deleteItem = (e) => {
         let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
         let isConfirmed = window.confirm(`Вы уверены, что хотите удалить элемент ${targetEl.id}? Несохранённые изменения будут потеряны.`);
         if(isConfirmed) {
@@ -198,8 +198,8 @@ export default class App extends Component {
             subcatBlocks.push(
                 <div key={subcatIndex} className="subcat minimized" id={subcat} data-item-role="db_item">
                     <div className="ui_control_block">
-                        <span className="ui_btn minimize_item" onClick={e => this.minimizeItem(e)}>&minus;</span>
-                        <span className="ui_btn delete_item" onClick={e => this.deleteItem(e)}>&times;</span>
+                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
                     <span className="subcat_header" contentEditable="true" onBlur={this.renameItem}>{subcat}</span>
                     <div className="subcat_wrap item_content">
@@ -225,8 +225,8 @@ export default class App extends Component {
             prodBlocks.push(
                 <div key={prodIndex} className="card minimized" id={prod} data-item-role="db_item">
                     <div className="ui_control_block" data-item-role="something">
-                        <span className="ui_btn minimize_item" onClick={e => this.minimizeItem(e)}>&minus;</span>
-                        <span className="ui_btn delete_item" onClick={e => this.deleteItem(e)}>&times;</span>
+                        <span className="ui_btn minimize_item" onClick={(e) => this.minimizeItem(e)}>&minus;</span>
+                        <span className="ui_btn delete_item" onClick={(e) => this.deleteItem(e)}>&times;</span>
                     </div>
                     <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
                     <div className="item_content">
@@ -246,7 +246,7 @@ export default class App extends Component {
         }
     }
 
-    inputHandler = e => {
+    inputHandler = (e) => {
         let targetInput = e.currentTarget;
         this.adjustInputField(targetInput);
         targetInput.style.borderColor = "#555";
@@ -389,7 +389,13 @@ export default class App extends Component {
                         alert("Получен положительный ответ.");
                         if(xhr.responseText) {
                             newDB = xhr.responseText;
-                            newDB = JSON.parse(unescape(newDB));
+                            newDB = JSON.parse(unescape(newDB), (key, value) => {
+                                if((key === 'prods' || key === 'subcats') && value instanceof Array && value.length === 0) {
+                                    return {}
+                                } else {
+                                    return value
+                                }
+                            });
                             this.setState({
                                 currentDBFileURL: db_url,
                                 DB: newDB
@@ -486,10 +492,10 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("beforeunload", e => {
+        window.addEventListener("beforeunload", (e) => {
             e.returnValue = "Вы уверены, что хотите закрыть редактор? Несохранённые изменения будут потеряны.";
         });
-        window.addEventListener("keydown", e => {
+        window.addEventListener("keydown", (e) => {
             if(e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === "s") {
                 e.preventDefault();
                 this.ajaxSaveDB();
@@ -534,7 +540,7 @@ export default class App extends Component {
                 <div className="autosave_block">
                     <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>
                     <div>
-                        <span>Интервал: </span><input type="number" id="autosaveInterval" defaultValue={this.state.autosaveInterval} onBlur={e => this.setState({
+                        <span>Интервал: </span><input type="number" id="autosaveInterval" defaultValue={this.state.autosaveInterval} onBlur={(e) => this.setState({
                             autosaveInterval: +(e.currentTarget.value)
                         }, () => this.resetAutosave())} min="1" /><span> мин.</span>
                     </div>
