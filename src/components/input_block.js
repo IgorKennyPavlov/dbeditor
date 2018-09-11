@@ -151,6 +151,10 @@ export default class InputBlock extends React.Component {
                                 <textarea className="card_input" placeholder="описание областей применения для инфоблока" onChange={this.props.inputHandler} value={prod.infoBlock.appAreas ? prod.infoBlock.appAreas : ""} />
                             </label>
                             <label className="key_container">
+                                <span className="key">feedback</span>
+                                <textarea className="card_input" placeholder="отзывы (дата|имя|отзыв|дата|...)" onChange={this.props.inputHandler} value={prod.infoBlock.feedback ? prod.infoBlock.feedback : ""} />
+                            </label>
+                            <label className="key_container">
                                 <span className="key">video</span>
                                 <textarea className="card_input" placeholder="ссылка на видеоматериал" onChange={this.props.inputHandler} value={prod.infoBlock.video ? prod.infoBlock.video : ""} />
                             </label>
