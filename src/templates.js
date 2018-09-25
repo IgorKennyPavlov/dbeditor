@@ -11,6 +11,8 @@ export class CardTemplate {
     constructor() {
         this.title = "";
         this.link = "";
+        this.metaTitle = "";
+        this.metaDescription = "";
         this.article = "";
         this.priceType = "";
         this.carouselLink = "";

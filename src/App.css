@@ -301,7 +301,7 @@ input, textarea {
     width: 3vh;
     height: 3vh;
 }
-span.key {
+span.db_key {
     font-weight: bold;
     margin-bottom: 5px;
 }
