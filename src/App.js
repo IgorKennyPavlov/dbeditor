@@ -135,10 +135,6 @@ export default class App extends Component {
   minimizeItem = (e) => {
     let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
     targetEl.classList.toggle("minimized");
-    let textareas = targetEl.querySelectorAll("textarea");
-    textareas.forEach(textarea => {
-      this.adjustInputField(textarea);
-    });
   }
 
   deleteItem = (e) => {
@@ -203,7 +199,7 @@ export default class App extends Component {
           <span className="subcat_header" contentEditable="true" onBlur={this.renameItem}>{subcat}</span>
           <div className="subcat_wrap item_content">
             <div className="editor_block-col col_left">
-              <InputBlock itemType="subcat" data={this.state.DB.subcats[subcat]} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
+              <InputBlock itemType="subcat" data={this.state.DB.subcats[subcat]} inputHandler={this.inputHandler} />
             </div>
             <div className="editor_block-col col_right">
               {this.displayCards(subcatFolder[subcat].prods, subcat)}
@@ -229,7 +225,7 @@ export default class App extends Component {
           </div>
           <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
           <div className="item_content">
-            <InputBlock itemType="card" data={prodsFolder[prod]} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
+            <InputBlock itemType="card" data={prodsFolder[prod]} inputHandler={this.inputHandler} />
           </div>
         </div>
       );
@@ -238,16 +234,8 @@ export default class App extends Component {
     return prodBlocks;
   }
 
-  adjustInputField = (el) => {
-    if (el.scrollHeight) {
-      el.style.height = "";
-      el.style.height = el.scrollHeight + "px";
-    }
-  }
-
   inputHandler = (e) => {
     let targetInput = e.currentTarget;
-    this.adjustInputField(targetInput);
     targetInput.style.borderColor = "#555";
     let key = this.getParentByClass(targetInput, "key_container").querySelector("span.db_key").innerText;
     let type = targetInput.dataset.inputType;
@@ -503,13 +491,6 @@ export default class App extends Component {
     this.resetAutosave();
   }
 
-  componentDidUpdate() {
-    let textareas = document.querySelectorAll("textarea");
-    for (let textarea of textareas) {
-      this.adjustInputField(textarea);
-    }
-  }
-
   render() {
     return (
       <div className="container">
@@ -524,7 +505,7 @@ export default class App extends Component {
         </div>
         <div className="editor_block">
           <div className="editor_block-col">
-            <InputBlock itemType="category" data={this.state.DB} adjustInputField={this.adjustInputField} inputHandler={this.inputHandler} />
+            <InputBlock itemType="category" data={this.state.DB} inputHandler={this.inputHandler} />
           </div>
           <div className="category_content_wrap">
             {this.displayCategoryContent()}

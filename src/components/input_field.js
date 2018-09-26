@@ -1,7 +1,8 @@
 import React from 'react';
 
 function InputField(props) {
-  let jsonDecode = val => {
+
+  const jsonDecode = val => {
     if (val === Object(val)) {
       val = JSON.stringify(val, null, 2);
       val = val.replace(/(\{|\[)\n?|\n?(\}|\])/gm, '');
@@ -10,6 +11,16 @@ function InputField(props) {
       val = val.replace(/",?$/gm, '');
     }
     return val
+  }
+
+  const unfoldTextarea = e => {
+    if (e.currentTarget.scrollHeight) {
+      e.currentTarget.style.height = "";
+      e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+    }
+  }
+  const foldTextarea = e => {
+    e.currentTarget.style.height = "100px";
   }
 
   let key_container;
@@ -32,7 +43,7 @@ function InputField(props) {
       key_container =
         <label className='key_container'>
           <span className='db_key'>{DBKey}</span>
-          <textarea className={element + '_input'} placeholder={placeholder} onChange={inputHandler} value={value} />
+          <textarea className={element + '_input'} placeholder={placeholder} onFocus={unfoldTextarea} onChange={e => {unfoldTextarea(e); inputHandler(e);}} onBlur={foldTextarea} value={value} />
         </label>;
       break;
 
