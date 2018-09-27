@@ -232,12 +232,10 @@ export default class App extends Component {
         temp = `[${temp}]`;
       }
       try {
-        temp = JSON.parse(temp);
-        if(temp) {
-          val = temp;
-        }
+        val = JSON.parse(temp);
       } catch (e) {
         input.style.borderColor = "#f00";
+        return;
       }
     }
     if (elemType === "category") {
