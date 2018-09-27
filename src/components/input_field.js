@@ -2,15 +2,19 @@ import React from 'react';
 
 function InputField(props) {
 
-  const jsonDecode = val => {
-    if (val === Object(val)) {
-      val = JSON.stringify(val, null, 2);
-      val = val.replace(/(\{|\[)\n?|\n?(\}|\])/gm, '');
-      val = val.replace(/^( |\t)*"/gm, '');
-      val = val.replace(/": "/gm, '\t');
-      val = val.replace(/",?$/gm, '');
+  let key_container;
+  let DBKey = props.DBKey;
+  let elType = props.element;
+  let placeholder = props.placeholder;
+  let inputHandler = props.inputHandler;
+
+  const insertTab = e => {
+    if(e.keyCode === 9) {
+      e.preventDefault();
+      let pos = e.currentTarget.selectionStart;
+      let val = e.currentTarget.value;
+      e.currentTarget.value = val.substr(0, pos)+'\t'+val.substr(pos);
     }
-    return val
   }
 
   const unfoldTextarea = e => {
@@ -23,19 +27,12 @@ function InputField(props) {
     e.currentTarget.style.height = "100px";
   }
 
-  let key_container;
-  let DBKey = props.DBKey;
-  let element = props.element;
-  let placeholder = props.placeholder;
-  let inputHandler = props.inputHandler;
-  let value = props.value;
-
   switch (props.dataType) {
     case 'text':
       key_container =
         <label className='key_container'>
           <span className='db_key'>{DBKey}</span>
-          <input type='text' className={element + '_input'} placeholder={placeholder} onChange={inputHandler} value={value} />
+          <input type='text' className='input' placeholder={placeholder} onBlur={inputHandler} data-elem-type={elType} />
         </label>;
       break;
 
@@ -43,7 +40,7 @@ function InputField(props) {
       key_container =
         <label className='key_container'>
           <span className='db_key'>{DBKey}</span>
-          <textarea className={element + '_input'} placeholder={placeholder} onFocus={unfoldTextarea} onChange={e => {unfoldTextarea(e); inputHandler(e);}} onBlur={foldTextarea} value={value} />
+          <textarea className='input' placeholder={placeholder} onFocus={unfoldTextarea} onBlur={e => {foldTextarea(e); inputHandler(e);}} data-elem-type={elType} />
         </label>;
       break;
 
@@ -51,7 +48,7 @@ function InputField(props) {
       key_container =
         <label className='key_container'>
           <span className='db_key'>{DBKey}</span>
-          <textarea className={element + '_input'} placeholder={placeholder} onChange={inputHandler} value={jsonDecode(value)} data-input-type='array_i' />
+          <textarea className='input' placeholder={placeholder} onFocus={unfoldTextarea} onBlur={e => {foldTextarea(e); inputHandler(e);}} data-data-type='array_i' data-elem-type={elType} />
         </label>;
       break;
 
@@ -59,16 +56,17 @@ function InputField(props) {
       key_container =
         <label className='key_container'>
           <span className='db_key'>{DBKey}</span>
-          <textarea className={element + '_input'} placeholder={placeholder} onChange={inputHandler} value={jsonDecode(value)} data-input-type='array_a' />
+          <textarea className='input' placeholder={placeholder} onFocus={unfoldTextarea} onBlur={e => {foldTextarea(e); inputHandler(e);}} onKeyDown={insertTab} data-data-type='array_a' data-elem-type={elType} />
         </label>;
       break;
 
     case 'radio':
+      console.log(DBKey+props.name);
       let options = [];
-      for (let option in props.options) {
+      for (let option of props.options) {
         options.push(
           <label>
-            <input type='radio' name={props.inputName} className={element + '_input'} onChange={inputHandler} value={option} defaultChecked={option === props.checked} />
+            <input type='radio' name={DBKey+props.name} className='input' onChange={inputHandler} value={option} data-elem-type={elType} />
             <span>{option}</span>
           </label>
         );

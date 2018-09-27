@@ -8,9 +8,6 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      autosaveIntervalID: null,
-      autosaveInterval: 5,
-      currentDBFileURL: null,
       DB: {
         "title": "",
         "cardh1title": "",
@@ -27,42 +24,13 @@ export default class App extends Component {
   // ajaxPath = "http://victr85.beget.tech/dbeditor/";
   ajaxPath = "http://dbeditor/build/";
 
-  getParentByClass = (el, targetParentClass) => {
-    let currentParent = el.parentElement;
-    while (!currentParent.classList.contains(targetParentClass)) {
-      if (currentParent === document.body) {
-        return false;
-      }
-      currentParent = currentParent.parentElement;
-    }
-    return currentParent;
-  }
-  getParentByDataAttr = (el, dataAttrName, dataAttrValue = null) => {
-    let currentParent = el.parentElement;
-    let found = false;
-    while (!found) {
-      if (currentParent === document.body) {
-        return false;
-      }
-      if (currentParent.dataset[dataAttrName]) {
-        if (dataAttrValue) {
-          if (dataAttrValue === currentParent.dataset[dataAttrName]) {
-            found = true;
-            continue;
-          }
-        } else {
-          found = true;
-          continue;
-        }
-      }
-      currentParent = currentParent.parentElement;
-    }
-    return currentParent;
-  }
+  autosaveIntervalID = null;
+  autosaveInterval = 5;
+  currentDBFileURL = null;
 
   addItem = (item, e) => {
     let newDB = this.state.DB;
-    let newItemTitle = this.getParentByClass(e.currentTarget, "add_item_block-wrap").querySelector("input.new_item_title").value.toLowerCase().replace(/\s+/g, "_");
+    let newItemTitle = e.currentTarget.closest('.add_item_block-wrap').querySelector('input.new_item_title').value.toLowerCase().replace(/\s+/g, "_");
     if (newItemTitle) {
       if (item === "subcat") {
         if (newDB.subcats) {
@@ -79,7 +47,7 @@ export default class App extends Component {
         }
       } else if (item === "card") {
         if (newDB.subcats) {
-          let subcatTitle = this.getParentByClass(e.currentTarget, "subcat").id;
+          let subcatTitle = e.currentTarget.closest('.subcat').id;
           if (newDB.subcats[subcatTitle].prods.hasOwnProperty(newItemTitle)) {
             alert("Элемент с таким названием уже имеется. Выберите другое название или удалите имеющийся элемент.");
             return;
@@ -104,7 +72,7 @@ export default class App extends Component {
 
   renameItem = (e) => {
     let newDB = this.state.DB;
-    let DBItem = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
+    let DBItem = e.currentTarget.closest('[data-item-role="db_item"]');
     let oldItemTitle = DBItem.id;
     let newItemTitle;
     if (e.currentTarget.innerText) {
@@ -113,11 +81,11 @@ export default class App extends Component {
       newItemTitle = e.currentTarget.innerText = oldItemTitle;
     }
     if (newItemTitle !== oldItemTitle) {
-      if (DBItem.classList.contains("subcat")) {
+      if (DBItem.classList.contains('subcat')) {
         newDB.subcats[newItemTitle] = newDB.subcats[oldItemTitle];
         delete newDB.subcats[oldItemTitle];
-      } else if (DBItem.classList.contains("card")) {
-        let subcat = this.getParentByClass(e.currentTarget, "subcat").id;
+      } else if (DBItem.classList.contains('card')) {
+        let subcat = e.currentTarget.closest('.subcat').id;
         if (subcat) {
           newDB.subcats[subcat].prods[newItemTitle] = newDB.subcats[subcat].prods[oldItemTitle];
           delete newDB.subcats[subcat].prods[oldItemTitle];
@@ -133,12 +101,12 @@ export default class App extends Component {
   }
 
   minimizeItem = (e) => {
-    let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
+    let targetEl = e.currentTarget.closest('[data-item-role="db_item"]');
     targetEl.classList.toggle("minimized");
   }
 
   deleteItem = (e) => {
-    let targetEl = this.getParentByDataAttr(e.currentTarget, "itemRole", "db_item");
+    let targetEl = e.currentTarget.closest('[data-item-role="db_item"]');
     let isConfirmed = window.confirm(`Вы уверены, что хотите удалить элемент ${targetEl.id}? Несохранённые изменения будут потеряны.`);
     if (isConfirmed) {
       let newDB = this.state.DB;
@@ -150,7 +118,7 @@ export default class App extends Component {
         }
       } else if (targetEl.classList.contains("card")) {
         if (newDB.hasOwnProperty("subcats")) {
-          let targetSubcat = this.getParentByClass(targetEl, "subcat").id;
+          let targetSubcat = targetEl.closest('.subcat').id;
           delete newDB.subcats[targetSubcat].prods[targetEl.id];
         } else {
           delete newDB.prods[targetEl.id];
@@ -199,7 +167,7 @@ export default class App extends Component {
           <span className="subcat_header" contentEditable="true" onBlur={this.renameItem}>{subcat}</span>
           <div className="subcat_wrap item_content">
             <div className="editor_block-col col_left">
-              <InputBlock itemType="subcat" data={this.state.DB.subcats[subcat]} inputHandler={this.inputHandler} />
+              <InputBlock itemType="subcat" inputHandler={this.inputHandler} />
             </div>
             <div className="editor_block-col col_right">
               {this.displayCards(subcatFolder[subcat].prods, subcat)}
@@ -216,7 +184,16 @@ export default class App extends Component {
   displayCards = (prodsFolder, subcat = null) => {
     let prodBlocks = [];
     let prodIndex = 0;
+    let name;
     for (let prod in prodsFolder) {
+      console.log(subcat, prod);
+      if(this.state.DB.priceList) {
+        if(subcat) {
+          name = subcat+prod;
+        } else {
+          name = prod;
+        }
+      }
       prodBlocks.push(
         <div key={prodIndex} className="card minimized" id={prod} data-item-role="db_item">
           <div className="ui_control_block">
@@ -225,7 +202,7 @@ export default class App extends Component {
           </div>
           <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
           <div className="item_content">
-            <InputBlock itemType="card" data={prodsFolder[prod]} inputHandler={this.inputHandler} />
+            <InputBlock itemType="card" name={name} inputHandler={this.inputHandler} />
           </div>
         </div>
       );
@@ -235,60 +212,114 @@ export default class App extends Component {
   }
 
   inputHandler = (e) => {
-    let targetInput = e.currentTarget;
-    targetInput.style.borderColor = "#555";
-    let key = this.getParentByClass(targetInput, "key_container").querySelector("span.db_key").innerText;
-    let type = targetInput.dataset.inputType;
-    let val = targetInput.value;
-    let inputClasses = targetInput.classList;
-    let newDB = this.state.DB;
-    if (type) {
-      val = val.replace(/([^\\])"/gm, "$1\\\"");
-      val = val.replace(/\\(?!")/gm, "");
-      val = val.replace(/$/gm, "\"");
-      val = val.replace(/"$\n/gm, "\",\n");
-      val = val.replace(/^/gm, "\"");
-      if (type === "array_a") {
-        val = val.replace(/\t/gm, "\": \"");
-        val = val.replace(/({"[^"]*"})|(^"[^"]*",?$)/gm, "\"ключ\": \"значение\"");
-        val = val.replace(/"$\n/gm, "\",\n");
-        val = `{${val}}`;
+    let input = e.currentTarget;
+    let key = input.closest('.key_container').querySelector("span.db_key").innerText;
+    let elemType = input.dataset.elemType;
+    let dataType = input.dataset.dataType;
+    let val = input.value;
+    let DB = this.state.DB;
+    input.style.borderColor = "#555";
+    if (dataType) {
+      let temp = val.replace(/([^\\])"/gm, "$1\\\"");
+      temp = temp.replace(/\\(?!")/gm, "");
+      temp = temp.replace(/$/gm, "\"");
+      temp = temp.replace(/"$\n/gm, "\",\n");
+      temp = temp.replace(/^/gm, "\"");
+      if (dataType === "array_a") {
+        temp = temp.replace(/\t/gm, "\": \"");
+        temp = temp.replace(/"$\n/gm, "\",\n");
+        temp = `{${temp}}`;
       } else {
-        val = `[${val}]`;
+        temp = `[${temp}]`;
       }
       try {
-        val = JSON.parse(val);
+        temp = JSON.parse(temp);
+        if(temp) {
+          val = temp;
+        }
       } catch (e) {
-        targetInput.style.borderColor = "#f00";
+        input.style.borderColor = "#f00";
       }
     }
-    if (inputClasses.contains("category_input")) {
-      newDB[key] = val;
-    } else if (inputClasses.contains("subcat_input")) {
-      let subcatID = this.getParentByClass(targetInput, "subcat").id;
-      newDB.subcats[subcatID][key] = val;
-    } else if (inputClasses.contains("card_input")) {
-      let cardID = this.getParentByClass(targetInput, "card").id;
-      let infoBlock = this.getParentByDataAttr(targetInput, "subfolder", "infoBlock");
+    if (elemType === "category") {
+      DB[key] = val;
+    } else if (elemType === "subcat") {
+      let subcatID = input.closest('.subcat').id;
+      DB.subcats[subcatID][key] = val;
+    } else if (elemType === "card") {
+      let cardID = input.closest('.card').id;
+      let infoBlock = input.closest('[data-subfolder="infoBlock"]');
       if (infoBlock) {
-        if (newDB.subcats) {
-          let subcatID = this.getParentByClass(targetInput, "subcat").id;
-          newDB.subcats[subcatID].prods[cardID].infoBlock[key] = val;
+        if (DB.subcats) {
+          let subcatID = input.closest('.subcat').id;
+          DB.subcats[subcatID].prods[cardID].infoBlock[key] = val;
         } else {
-          newDB.prods[cardID].infoBlock[key] = val;
+          DB.prods[cardID].infoBlock[key] = val;
         }
       } else {
-        if (newDB.subcats) {
-          let subcatID = this.getParentByClass(targetInput, "subcat").id;
-          newDB.subcats[subcatID].prods[cardID][key] = val;
+        if (DB.subcats) {
+          let subcatID = input.closest('.subcat').id;
+          DB.subcats[subcatID].prods[cardID][key] = val;
         } else {
-          newDB.prods[cardID][key] = val;
+          DB.prods[cardID][key] = val;
         }
       }
     }
-    this.setState({
-      DB: newDB
-    });
+    console.log(this.state.DB);
+  }
+
+  populateInputs = () => {
+    let inputs = document.querySelectorAll('.input');
+    for(let input of inputs) {
+      let key = input.closest('.key_container').querySelector("span.db_key").innerText;
+      let elemType = input.dataset.elemType;
+      let dataType = input.dataset.dataType;
+      let inputType = input.getAttribute('type');
+      let DB = this.state.DB;
+      let val;
+  
+      if (elemType === "category") {
+        val = DB[key];
+      } else if (elemType === "subcat") {
+        let subcatID = input.closest('.subcat').id;
+        val = DB.subcats[subcatID][key];
+      } else if (elemType === "card") {
+        let cardID = input.closest('.card').id;
+        let infoBlock = input.closest('[data-subfolder="infoBlock"]');
+        if (infoBlock) {
+          if (DB.subcats) {
+            let subcatID = input.closest('.subcat').id;
+            val = DB.subcats[subcatID].prods[cardID].infoBlock[key];
+          } else {
+            val = DB.prods[cardID].infoBlock[key];
+          }
+        } else {
+          if (DB.subcats) {
+            let subcatID = input.closest('.subcat').id;
+            val = DB.subcats[subcatID].prods[cardID][key];
+          } else {
+            val = DB.prods[cardID][key];
+          }
+        }
+      }
+      
+  
+      if(inputType === 'radio' && val === input.value) {
+        input.checked = 'checked';
+        return;
+      }
+  
+      if (val) {
+        if(dataType && val === Object(val)) {
+          val = JSON.stringify(val, null, 2);
+          val = val.replace(/(\{|\[)\n?|\n?(\}|\])/gm, '');
+          val = val.replace(/^( |\t)*"/gm, '');
+          val = val.replace(/": "/gm, '\t');
+          val = val.replace(/",?$/gm, '');
+        }
+        input.value = val;
+      }
+    }
   }
 
   // Ajax-запросы
@@ -299,8 +330,8 @@ export default class App extends Component {
 
   ajaxSaveDB = (e, autosave = false) => {
     let placeholder = "db_name-db.php";
-    if (this.state.currentDBFileURL) {
-      placeholder = this.state.currentDBFileURL.match(/[^/]+$/);
+    if (this.currentDBFileURL) {
+      placeholder = this.currentDBFileURL.match(/[^/]+$/);
     }
     let message = "Введите название файла БД";
     if (autosave) {
@@ -325,9 +356,7 @@ export default class App extends Component {
             alert("Получен положительный ответ.");
             document.getElementById('server_reply').innerHTML = xhr.responseText;
             this.resetAutosave();
-            this.setState({
-              currentDBFileURL: xhr.responseText,
-            })
+            this.currentDBFileURL = xhr.responseText;
           }
         }
       };
@@ -340,24 +369,20 @@ export default class App extends Component {
   }
   resetAutosave = () => {
     let isChecked = document.getElementById("autosave_checkbox").checked;
-    if (this.state.autosaveIntervalID) {
-      clearInterval(this.state.autosaveIntervalID);
+    if (this.autosaveIntervalID) {
+      clearInterval(this.autosaveIntervalID);
     }
     if (isChecked) {
-      this.setState({
-        autosaveIntervalID: setInterval(() => this.ajaxSaveDB(null, true), this.state.autosaveInterval * 60 * 1000)
-      });
+      this.autosaveIntervalID = setInterval(() => this.ajaxSaveDB(null, true), this.autosaveInterval * 60 * 1000);
     } else {
-      this.setState({
-        autosaveIntervalID: null
-      });
+      this.autosaveIntervalID = null;
     }
   }
 
   ajaxLoadDB = () => {
     let placeholder = "";
-    if (this.state.currentDBFileURL) {
-      placeholder = this.state.currentDBFileURL;
+    if (this.currentDBFileURL) {
+      placeholder = this.currentDBFileURL;
     }
     let db_url = prompt("Введите путь к файлу БД", placeholder);
     if (db_url) {
@@ -383,8 +408,8 @@ export default class App extends Component {
                   return value
                 }
               });
+              this.currentDBFileURL= db_url;
               this.setState({
-                currentDBFileURL: db_url,
                 DB: newDB
               });
             } else {
@@ -403,8 +428,8 @@ export default class App extends Component {
 
   ajaxCreatePages = () => {
     let placeholder = "";
-    if (this.state.currentDBFileURL) {
-      placeholder = this.state.currentDBFileURL;
+    if (this.currentDBFileURL) {
+      placeholder = this.currentDBFileURL;
     }
     let db_url = prompt("Введите путь к файлу БД", placeholder);
     if (db_url) {
@@ -491,6 +516,10 @@ export default class App extends Component {
     this.resetAutosave();
   }
 
+  componentDidUpdate() {
+    this.populateInputs();
+  }
+
   render() {
     return (
       <div className="container">
@@ -505,7 +534,7 @@ export default class App extends Component {
         </div>
         <div className="editor_block">
           <div className="editor_block-col">
-            <InputBlock itemType="category" data={this.state.DB} inputHandler={this.inputHandler} />
+            <InputBlock itemType="category" inputHandler={this.inputHandler} />
           </div>
           <div className="category_content_wrap">
             {this.displayCategoryContent()}
@@ -520,9 +549,7 @@ export default class App extends Component {
         <div className="autosave_block">
           <label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>
           <div>
-            <span>Интервал: </span><input type="number" id="autosaveInterval" defaultValue={this.state.autosaveInterval} onBlur={(e) => this.setState({
-              autosaveInterval: +(e.currentTarget.value)
-            }, () => this.resetAutosave())} min="1" /><span> мин.</span>
+            <span>Интервал: </span><input type="number" id="autosaveInterval" defaultValue={this.autosaveInterval} onBlur={(e) => {this.autosaveInterval = +(e.currentTarget.value);this.resetAutosave();}} min="1" /><span> мин.</span>
           </div>
         </div>
         <div id="server_reply"></div>
