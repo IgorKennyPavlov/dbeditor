@@ -5,7 +5,6 @@ function InputBlock(props) {
   let inputFields;
   let itemType = props.itemType;
   let inputHandler = props.inputHandler;
-  console.log(props.name);
   switch (itemType) {
     case 'category':
       inputFields =
@@ -35,10 +34,10 @@ function InputBlock(props) {
           <InputField inputHandler={inputHandler} element={itemType} dataType='textarea' DBKey='metaTitle' placeholder='метатег title' />
           <InputField inputHandler={inputHandler} element={itemType} dataType='textarea' DBKey='metaDescription' placeholder='метатег description' />
 
-          {/* {
-            props.priceTypeData && */}
-            <InputField inputHandler={inputHandler} element={itemType} dataType='radio' DBKey='priceType' options={['range', 'fixed', 'none']} name={props.name} placeholder='описание категории' />
-          {/* } */}
+          {
+            props.radioName &&
+            <InputField inputHandler={inputHandler} element={itemType} dataType='radio' DBKey='priceType' options={['range', 'fixed', 'none']} name={props.radioName} placeholder='описание категории' />
+          }
 
           <InputField inputHandler={inputHandler} element={itemType} dataType='textarea' DBKey='link' placeholder='ссылка на страницу товара' />
           <InputField inputHandler={inputHandler} element={itemType} dataType='textarea' DBKey='carouselLink' placeholder='ссылка на БД товаров для карусели' />

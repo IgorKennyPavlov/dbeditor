@@ -21,8 +21,8 @@ export default class App extends Component {
   }
 
   // Настройки пути ajax
-  // ajaxPath = "http://victr85.beget.tech/dbeditor/";
-  ajaxPath = "http://dbeditor/build/";
+  ajaxPath = "http://victr85.beget.tech/dbeditor/";
+  // ajaxPath = "http://dbeditor/build/";
 
   autosaveIntervalID = null;
   autosaveInterval = 5;
@@ -184,14 +184,13 @@ export default class App extends Component {
   displayCards = (prodsFolder, subcat = null) => {
     let prodBlocks = [];
     let prodIndex = 0;
-    let name;
+    let radioName;
     for (let prod in prodsFolder) {
-      console.log(subcat, prod);
       if(this.state.DB.priceList) {
         if(subcat) {
-          name = subcat+prod;
+          radioName = subcat+prod;
         } else {
-          name = prod;
+          radioName = prod;
         }
       }
       prodBlocks.push(
@@ -202,7 +201,7 @@ export default class App extends Component {
           </div>
           <span className="card_header" contentEditable="true" onBlur={this.renameItem}>{prod}</span>
           <div className="item_content">
-            <InputBlock itemType="card" name={name} inputHandler={this.inputHandler} />
+            <InputBlock itemType="card" radioName={radioName} inputHandler={this.inputHandler} />
           </div>
         </div>
       );
@@ -265,7 +264,6 @@ export default class App extends Component {
         }
       }
     }
-    console.log(this.state.DB);
   }
 
   populateInputs = () => {

@@ -61,7 +61,6 @@ function InputField(props) {
       break;
 
     case 'radio':
-      console.log(DBKey+props.name);
       let options = [];
       for (let option of props.options) {
         options.push(
