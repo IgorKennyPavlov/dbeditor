@@ -24,7 +24,7 @@ function InputField(props) {
     }
   }
   const foldTextarea = e => {
-    e.currentTarget.style.height = "100px";
+    e.currentTarget.style.height = "70px";
   }
 
   switch (props.dataType) {
