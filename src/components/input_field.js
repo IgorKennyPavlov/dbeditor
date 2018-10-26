@@ -2,17 +2,17 @@ import React from 'react';
 
 function InputField(props) {
 
+  const DBKey = props.DBKey;
+  const elType = props.element;
+  const placeholder = props.placeholder;
+  const inputHandler = props.inputHandler;
   let key_container;
-  let DBKey = props.DBKey;
-  let elType = props.element;
-  let placeholder = props.placeholder;
-  let inputHandler = props.inputHandler;
 
   const insertTab = e => {
     if(e.keyCode === 9) {
       e.preventDefault();
-      let pos = e.currentTarget.selectionStart;
-      let val = e.currentTarget.value;
+      const pos = e.currentTarget.selectionStart;
+      const val = e.currentTarget.value;
       e.currentTarget.value = val.substr(0, pos)+'\t'+val.substr(pos);
     }
   }
@@ -61,7 +61,7 @@ function InputField(props) {
       break;
 
     case 'radio':
-      let options = [];
+      const options = [];
       for (let option of props.options) {
         options.push(
           <label>

@@ -1,14 +1,14 @@
 import React from 'react';
 
 function AddItemBlock(props) {
-  let submitOnEnterPress = (e) => {
+  const submitOnEnterPress = (e) => {
     if (e.keyCode === 13) {
       e.currentTarget.parentElement.parentElement.querySelector(".btn.add_item").click();
     }
   }
+  const itemType = props.itemType;
   let inputLabel;
   let btnTitle;
-  let itemType = props.itemType;
 
   if (itemType === "subcat") {
     inputLabel = "Название новой подкатегории";

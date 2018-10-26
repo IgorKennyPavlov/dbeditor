@@ -2,9 +2,9 @@ import React from 'react';
 import InputField from './input_field';
 
 function InputBlock(props) {
+  const itemType = props.itemType;
+  const inputHandler = props.inputHandler;
   let inputFields;
-  let itemType = props.itemType;
-  let inputHandler = props.inputHandler;
   switch (itemType) {
     case 'category':
       inputFields =

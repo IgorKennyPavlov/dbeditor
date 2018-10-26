@@ -1,13 +1,13 @@
 <?php
 $input_data = json_decode(file_get_contents('php://input'), true);
-$db_dir_url = $input_data['db_url'];
+$dir_url = $input_data['dir_url'];
 $server_reply = "";
-if(is_dir($db_dir_url)) {
-    if($dir = opendir($db_dir_url)) {
+if(is_dir($dir_url)) {
+    if($dir = opendir($dir_url)) {
         // $server_reply .= "Статус curl: ".(function_exists('curl_version') ? 'Enabled' : 'Disabled')."<br>";
         while (($file = readdir($dir)) !== false) {
             if ($file != "." && $file != "..") {
-                $db_url = "$db_dir_url/$file";
+                $db_url = "$dir_url/$file";
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, "http://dbeditor/build/db_create_pages.php");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
