@@ -2,6 +2,8 @@ export class SubcatTemplate {
     constructor() {
         this.title = "";
         this.link = "";
+        this.metaTitle = "";
+        this.metaDescription = "";
         this.desc = "";
         this.carouselLink = "";
         this.prods = {};

@@ -9,20 +9,22 @@ export default class App extends Component {
 		super(props);
 		this.state = {
 			DB: {
-				"title": "",
-				"cardh1title": "",
-				"link": "",
-				"desc": "",
-				"priceList": "",
-				"carouselLink": "",
-				"prods": {}
+				'title': '',
+				'cardh1title': '',
+				'link': '',
+				'metaTitle': '',
+				'metaDescription': '',
+				'desc': '',
+				'priceList': '',
+				'carouselLink': '',
+				'prods': {}
 			}
 		};
 	}
 
 	// Настройки пути ajax
-	ajaxPath = "http://victr85.beget.tech/dbeditor/";
-	// ajaxPath = "http://dbeditor/build/";
+	ajaxPath = 'http://victr85.beget.tech/dbeditor/';
+	// ajaxPath = 'http://dbeditor/build/';
 
 	autosaveIntervalID = null;
 	autosaveInterval = 5;
@@ -30,7 +32,12 @@ export default class App extends Component {
 
 	addItem = (item, e) => {
 		const newDB = this.state.DB;
-		const newItemTitle = e.currentTarget.closest('.add_item_block-wrap').querySelector('input.new_item_title').value.toLowerCase().replace(/\s+/g, "_");
+		const newItemTitle = e.currentTarget
+			.closest('.add_item_block-wrap')
+			.querySelector('input.new_item_title')
+			.value
+			.toLowerCase()
+			.replace(/\s+/g, "_");
 		if (newItemTitle) {
 			if (item === "subcat") {
 				if (newDB.subcats) {
@@ -364,8 +371,8 @@ export default class App extends Component {
 
 	ajaxLoadDB = async () => {
 		let placeholder = "";
-		if (this.state.currentDBFileURL) {
-			placeholder = this.state.currentDBFileURL;
+		if (this.currentDBFileURL) {
+			placeholder = this.currentDBFileURL;
 		}
 		const db_url = prompt("Введите путь к файлу БД", placeholder);
 		if (db_url) {
@@ -384,8 +391,8 @@ export default class App extends Component {
 				});
 				if (newDB) {
 					this.resetAutosave();
+					this.currentDBFileURL = db_url;
 					this.setState({
-						currentDBFileURL: db_url,
 						DB: newDB
 					});
 				}
@@ -489,10 +496,22 @@ export default class App extends Component {
 					</div>
 				</div>
 				<div className="footer_control_panel">
-					<div className="btn create_db" onClick={this.ajaxSaveDB}><span className="btn_icon plus">+</span><span className="btn_title">Сохранить БД</span></div>
-					<div className="btn create_db" onClick={this.ajaxLoadDB}><span className="btn_icon plus">+</span><span className="btn_title">Загрузить БД</span></div>
-					<div className="btn create_db" onClick={this.ajaxCreatePages}><span className="btn_icon plus">+</span><span className="btn_title">Создать страницы</span></div>
-					<div className="btn create_db hidden" onClick={this.ajaxCreatePagesAll}><span className="btn_icon plus">+</span><span className="btn_title">Создать ВСЕ страницы</span></div>
+					<div className="btn create_db" onClick={this.ajaxSaveDB}>
+						<span className="btn_icon plus">+</span>
+						<span className="btn_title">Сохранить БД</span>
+					</div>
+					<div className="btn create_db" onClick={this.ajaxLoadDB}>
+						<span className="btn_icon plus">+</span>
+						<span className="btn_title">Загрузить БД</span>
+					</div>
+					<div className="btn create_db" onClick={this.ajaxCreatePages}>
+						<span className="btn_icon plus">+</span>
+						<span className="btn_title">Создать страницы</span>
+					</div>
+					<div className="btn create_db hidden" onClick={this.ajaxCreatePagesAll}>
+						<span className="btn_icon plus">+</span>
+						<span className="btn_title">Создать ВСЕ страницы</span>
+					</div>
 				</div>
 				<div className="autosave_block">
 					<label><input type="checkbox" name="autosave_checkbox" id="autosave_checkbox" defaultChecked="true" onChange={this.resetAutosave} /> Автосохранение</label>
